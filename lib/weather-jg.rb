@@ -16,6 +16,7 @@ class Weather
         raise
       end
     else
+      # Convert string location to integer city code
       city_ids = Weather.get_city_id(city_id)
 
       if city_ids.length == 0
@@ -23,6 +24,7 @@ class Weather
       elsif city_ids.length > 1
         raise ArgumentError, "City ID: '#{city_id}' returned more than one matching city (#{city_ids}). Please refine your search term"
       else
+        # Recursive call using integer city code
         return Weather.city(city_ids[0]["id"], unit: unit)
       end
     end
