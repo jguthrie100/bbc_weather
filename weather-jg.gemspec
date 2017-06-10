@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.description = "A simple gem to grab the weather forecast for any given city"
   s.authors     = ["Jamie Guthrie"]
   s.email       = 'jamie.guthrie@gmail.com'
-  s.files       = ["lib/weather-jg.rb"]
+  s.files       = ["lib/weather-jg.rb", "lib/weather_forecast.rb", "lib/day.rb"]
   s.add_dependency 'nokogiri'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec'

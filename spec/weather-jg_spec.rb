@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'date'
 
 describe Weather do
   describe '.city' do
@@ -31,13 +32,24 @@ describe Weather do
 
       it 'should return a Hash containing todays weather data' do
 
-        expect(weather[:location]).to eql("Halifax")
-        expect(weather[:current_temp]).to match(/^[0-9]+$/)
-        expect(weather[:current_humidity]).to match(/^[0-9]+%$/)
-        expect(weather[:high]).to match(/^[0-9]+$/)
-        expect(weather[:low]).to match(/^[0-9]+$/)
-        expect(weather[:sunrise]).to match(/^[0-9]{2}:[0-9]{2}$/)
-        expect(weather[:sunset]).to match(/^[0-9]{2}:[0-9]{2}$/)
+        expect(weather.location).to eql("Halifax")
+        expect(weather.current_temp).to match(/^[0-9]+$/)
+        expect(weather.current_humidity).to match(/^[0-9]+%$/)
+        expect(weather.today.high).to match(/^[0-9]+$/)
+        expect(weather.today.low).to match(/^[0-9]+$/)
+        expect(weather.today.sunrise).to match(/^[0-9]{2}:[0-9]{2}$/)
+        expect(weather.today.sunset).to match(/^[0-9]{2}:[0-9]{2}$/)
+      end
+
+      it 'should return a Hash containing tomorrows weather data' do
+p weather.tomorrow
+        expect(weather.location).to eql("Halifax")
+        expect(weather.current_temp).to match(/^[0-9]+$/)
+        expect(weather.current_humidity).to match(/^[0-9]+%$/)
+        expect(weather.tomorrow.high).to match(/^[0-9]+$/)
+        expect(weather.tomorrow.low).to match(/^[0-9]+$/)
+        expect(weather.tomorrow.sunrise).to match(/^[0-9]{2}:[0-9]{2}$/)
+        expect(weather.tomorrow.sunset).to match(/^[0-9]{2}:[0-9]{2}$/)
       end
     end
 

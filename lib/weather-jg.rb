@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'net/http'
 require 'json'
+require 'weather_forecast'
 
 class Weather
   def self.city(city_id, unit: "c")
@@ -8,7 +9,7 @@ class Weather
 
     if city_id.is_a?(Integer) || city_id =~ /^[0-9]+$/
       begin
-        result = get_weather_from_bbc_url("http://www.bbc.co.uk/weather/#{city_id}", unit: unit)
+        result = get_weather_from_bbc_url("http://www.bbc.co.uk/weather/en/#{city_id}", unit: unit)
       rescue ArgumentError => e
         if e.to_s[/404/]
           raise ArgumentError, "City ID: #{city_id} not found"
@@ -42,24 +43,25 @@ class Weather
       raise ArgumentError, "'#{unit}' is not a recognised unit of temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit)"
     end
 
-    html = Nokogiri::HTML(Net::HTTP.get(URI(url)))
+    html = Hash.new
+    html[:main] = Nokogiri::HTML(Net::HTTP.get(URI(url)))
 
-    if html.css("title")[0].children[0].text[/not found/i]
+    if html[:main].css("title")[0].children[0].text[/not found/i]
       raise ArgumentError, "The given URL returned a 404 error. Please check the city ID and try again"
     end
 
-    result = Hash.new
+####
+## - Convert to use threads for each html call
+###
+html[:main].css("div.daily-window > ul > li > a").each do |day|
+   day_url = day.attributes["data-ajax-href"].value
+   html[day_url[/[0-9]+$/].to_i] = Nokogiri::HTML(Net::HTTP.get(URI("http://www.bbc.co.uk#{day_url}")))
+end
 
-    result[:location] = html.css("span.location-name")[0].children[0].text
-    result[:current_temp] = html.css("span.temperature-value")[0].children[0].text
-    result[:current_humidity] = html.css("p.humidity span")[0].children[0].text
+#    html[:main].css("div.daily-window ul") do |i|
+#      html[i] = Nokogiri::HTML(Net::HTTP.get(URI("#{url}/daily/000?day=#{i}")))
+#    end
 
-    result[:high] = html.css("span.max-temp-value span span[data-unit=#{unit}]")[0].children[0].text
-    result[:low] = html.css("span.min-temp-value span span[data-unit=#{unit}]")[0].children[0].text
-
-    result[:sunrise] = html.css("span.sunrise")[0].children[0].text[/\d{2}:\d{2}/]
-    result[:sunset] = html.css("span.sunset")[0].children[0].text[/\d{2}:\d{2}/]
-
-    return result
+    return WeatherForecast.new(html, unit)
   end
 end
