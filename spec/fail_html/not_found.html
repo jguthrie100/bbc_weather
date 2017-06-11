@@ -1,0 +1,424 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB"> <head profile="http://dublincore.org/documents/dcq-html/"> <!-- Barlesque 3.21.17 --> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> <meta name="description" content="" /> <meta name="keywords" content="" />  <meta name="DCTERMS.created" content="" />    <title>BBC Weather - Page not found</title>        <link rel="schema.dcterms" href="http://purl.org/dc/terms/" />  <link rel="copyright" href="http://www.bbc.co.uk/terms/" title="Terms of Use" /> <link rel="icon" href="http://www.bbc.co.uk/favicon.ico" type="image/x-icon" />  <meta name="viewport" content="width = 974" /> <meta property="fb:admins" content="100004154058350" />    <link rel="stylesheet" type="text/css" href="http://static.bbci.co.uk/frameworks/barlesque/3.21.17/desktop/2.8/style/main.css"  />  <link rel="stylesheet" type="text/css" href="http://static.bbci.co.uk/locator/weather/0.19.0/style/locator-weather.css"  />  <link rel="stylesheet" type="text/css" href="http://static.bbci.co.uk/locator/0.120.0/style/locator.css"  />  <link rel="stylesheet" type="text/css" href="http://static.bbci.co.uk/errorhandling/0.4.1/style/error/default.css"  />  <script type="text/javascript">/*<![CDATA[*/ (function(undefined){if(!window.bbc){window.bbc={}}var ROLLING_PERIOD_DAYS=30;window.bbc.Mandolin=function(id,segments,opts){var now=new Date().getTime(),storedItem,DEFAULT_START=now,DEFAULT_RATE=1,COOKIE_NAME="ckpf_mandolin";opts=opts||{};this._id=id;this._segmentSet=segments;this._store=new window.window.bbc.Mandolin.Storage(COOKIE_NAME);this._opts=opts;this._rate=(opts.rate!==undefined)?+opts.rate:DEFAULT_RATE;this._startTs=(opts.start!==undefined)?new Date(opts.start).getTime():new Date(DEFAULT_START).getTime();this._endTs=(opts.end!==undefined)?new Date(opts.end).getTime():daysFromNow(ROLLING_PERIOD_DAYS);this._signupEndTs=(opts.signupEnd!==undefined)?new Date(opts.signupEnd).getTime():this._endTs;this._segment=null;if(typeof id!=="string"){throw new Error("Invalid Argument: id must be defined and be a string")}if(Object.prototype.toString.call(segments)!=="[object Array]"){throw new Error("Invalid Argument: Segments are required.")}if(opts.rate!==undefined&&(opts.rate<0||opts.rate>1)){throw new Error("Invalid Argument: Rate must be between 0 and 1.")}if(this._startTs>this._endTs){throw new Error("Invalid Argument: end date must occur after start date.")}if(!(this._startTs<this._signupEndTs&&this._signupEndTs<=this._endTs)){throw new Error("Invalid Argument: SignupEnd must be between start and end date")}removeExpired.call(this,now);var overrides=window.bbccookies.get().match(/ckns_mandolin_setSegments=([^;]+)/);if(overrides!==null){eval("overrides = "+decodeURIComponent(RegExp.$1)+";");if(overrides[this._id]&&this._segmentSet.indexOf(overrides[this._id])==-1){throw new Error("Invalid Override: overridden segment should exist in segments array")}}if(overrides!==null&&overrides[this._id]){this._segment=overrides[this._id]}else{if((storedItem=this._store.getItem(this._id))){this._segment=storedItem.segment}else{if(this._startTs<=now&&now<this._signupEndTs&&now<=this._endTs&&this._store.isEnabled()===true){this._segment=pick(segments,this._rate);if(opts.end===undefined){this._store.setItem(this._id,{segment:this._segment})}else{this._store.setItem(this._id,{segment:this._segment,end:this._endTs})}log.call(this,"mandolin_segment")}}}log.call(this,"mandolin_view")};window.bbc.Mandolin.prototype.getSegment=function(){return this._segment};function log(actionType,params){var that=this;require(["istats-1"],function(istats){istats.log(actionType,that._id+":"+that._segment,params?params:{})})}function removeExpired(expires){var items=this._store.getItems(),expiresInt=+expires;for(var key in items){if(items[key].end!==undefined&&+items[key].end<expiresInt){this._store.removeItem(key)}}}function getLastExpirationDate(data){var winner=0,rollingExpire=daysFromNow(ROLLING_PERIOD_DAYS);for(var key in data){if(data[key].end===undefined&&rollingExpire>winner){winner=rollingExpire}else{if(+data[key].end>winner){winner=+data[key].end}}}return(winner)?new Date(winner):new Date(rollingExpire)}window.bbc.Mandolin.prototype.log=function(params){log.call(this,"mandolin_log",params)};window.bbc.Mandolin.prototype.convert=function(params){log.call(this,"mandolin_convert",params);this.convert=function(){}};function daysFromNow(n){var endDate;endDate=new Date().getTime()+(n*60*60*24)*1000;return endDate}function pick(segments,rate){var picked,min=0,max=segments.length-1;if(typeof rate==="number"&&Math.random()>rate){return null}do{picked=Math.floor(Math.random()*(max-min+1))+min}while(picked>max);return segments[picked]}window.bbc.Mandolin.Storage=function(name){validateCookieName(name);this._cookieName=name;this._isEnabled=(bbccookies.isAllowed(this._cookieName)===true&&bbccookies.cookiesEnabled()===true)};window.bbc.Mandolin.Storage.prototype.setItem=function(key,value){var storeData=this.getItems();storeData[key]=value;this.save(storeData);return value};window.bbc.Mandolin.Storage.prototype.isEnabled=function(){return this._isEnabled};window.bbc.Mandolin.Storage.prototype.getItem=function(key){var storeData=this.getItems();return storeData[key]};window.bbc.Mandolin.Storage.prototype.removeItem=function(key){var storeData=this.getItems();delete storeData[key];this.save(storeData)};window.bbc.Mandolin.Storage.prototype.getItems=function(){return deserialise(this.readCookie(this._cookieName)||"")};window.bbc.Mandolin.Storage.prototype.save=function(data){window.bbccookies.set(this._cookieName+"="+encodeURIComponent(serialise(data))+"; expires="+getLastExpirationDate(data).toUTCString()+";")};window.bbc.Mandolin.Storage.prototype.readCookie=function(name){var nameEq=name+"=",ca=window.bbccookies.get().split("; "),i,c;validateCookieName(name);for(i=0;i<ca.length;i++){c=ca[i];if(c.indexOf(nameEq)===0){return decodeURIComponent(c.substring(nameEq.length,c.length))}}return null};function serialise(o){var str="";for(var p in o){if(o.hasOwnProperty(p)){str+='"'+p+'"'+":"+(typeof o[p]==="object"?(o[p]===null?"null":"{"+serialise(o[p])+"}"):'"'+o[p].toString()+'"')+","}}return str.replace(/,\}/g,"}").replace(/,$/g,"")}function deserialise(str){var o;str="{"+str+"}";if(!validateSerialisation(str)){throw"Invalid input provided for deserialisation."}eval("o = "+str);return o}var validateSerialisation=(function(){var OBJECT_TOKEN="<Object>",ESCAPED_CHAR='"\\n\\r\\u2028\\u2029\\u000A\\u000D\\u005C',ALLOWED_CHAR="([^"+ESCAPED_CHAR+"]|\\\\["+ESCAPED_CHAR+"])",KEY='"'+ALLOWED_CHAR+'+"',VALUE='(null|"'+ALLOWED_CHAR+'*"|'+OBJECT_TOKEN+")",KEY_VALUE=KEY+":"+VALUE,KEY_VALUE_SEQUENCE="("+KEY_VALUE+",)*"+KEY_VALUE,OBJECT_LITERAL="({}|{"+KEY_VALUE_SEQUENCE+"})",objectPattern=new RegExp(OBJECT_LITERAL,"g");return function(str){if(str.indexOf(OBJECT_TOKEN)!==-1){return false}while(str.match(objectPattern)){str=str.replace(objectPattern,OBJECT_TOKEN)}return str===OBJECT_TOKEN}})();function validateCookieName(name){if(name.match(/ ,;/)){throw"Illegal name provided, must be valid in browser cookie."}}})(); /*]]>*/</script>  <script type="text/javascript">/*<![CDATA[*/ if (typeof bbccookies_flag === 'undefined') { bbccookies_flag = 'ON'; } showCTA_flag = true; cta_enabled = (showCTA_flag && (bbccookies_flag === 'ON')); (function(){var m="ckns_policy",q="Thu, 01 Jan 1970 00:00:00 GMT",i={ads:true,personalisation:true,performance:true,necessary:true};function c(u){if(c.cache[u]){return c.cache[u]}var t=u.split("/"),v=[""];do{v.unshift((t.join("/")||"/"));t.pop()}while(v[0]!=="/");c.cache[u]=v;return v}c.cache={};function a(u){if(a.cache[u]){return a.cache[u]}var v=u.split("."),t=[];while(v.length&&"|co.uk|com|".indexOf("|"+v.join(".")+"|")===-1){if(v.length){t.push(v.join("."))}v.shift()}c.cache[u]=t;return t}a.cache={};function s(t,y,u){var E=[""].concat(a(window.location.hostname)),B=c(window.location.pathname),D="",w,C;for(var x=0,A=E.length;x<A;x++){w=E[x];for(var v=0,z=B.length;v<z;v++){C=B[v];D=t+"="+y+";"+(w?"domain="+w+";":"")+(C?"path="+C+";":"")+(u?"expires="+u+";":"");bbccookies.set(D,true)}}}window.bbccookies={POLICY_REFRESH_DATE_MILLIS:new Date(2015,4,21,0,0,0,0).getTime(),POLICY_EXPIRY_COOKIENAME:"ckns_policy_exp",_setEverywhere:s,cookiesEnabled:function(){var t="ckns_testcookie"+Math.floor(Math.random()*100000);this.set(t+"=1");if(this.get().indexOf(t)>-1){e(t);return true}return false},get:function(){return document.cookie},getCrumb:function(t){if(!t){return null}return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*"+encodeURIComponent(t).replace(/[\-\.\+\*]/g,"\\$&")+"\\s*\\=\\s*([^;]*).*$)|^.*$"),"$1"))||null},policyRequiresRefresh:function(){var u=new Date();u.setHours(0);u.setMinutes(0);u.setSeconds(0);u.setMilliseconds(0);if(bbccookies.POLICY_REFRESH_DATE_MILLIS<=u.getTime()){var t=bbccookies.getCrumb(bbccookies.POLICY_EXPIRY_COOKIENAME);if(t){t=new Date(parseInt(t));t.setYear(t.getFullYear()-1);return bbccookies.POLICY_REFRESH_DATE_MILLIS>=t.getTime()}else{return true}}else{return false}},_setPolicy:function(t){return f.apply(this,arguments)},readPolicy:function(){return l.apply(this,arguments)},_deletePolicy:function(){s(m,"",q)},_isConfirmed:function(){return n()!==null},_acceptsAll:function(){var t=l();return t&&!(j(t).indexOf("0")>-1)},_getCookieName:function(){return b.apply(this,arguments)},_showPrompt:function(){var t=((!this._isConfirmed()||this.policyRequiresRefresh())&&window.cta_enabled&&this.cookiesEnabled()&&!window.bbccookies_disable);return(window.orb&&window.orb.fig)?t&&(window.orb.fig("no")||window.orb.fig("ck")):t},_getPolicy:this.readPolicy};function b(u){var t=(""+u).match(/^([^=]+)(?==)/);return(t&&t.length?t[0]:"")}function j(t){return""+(t.ads?1:0)+(t.personalisation?1:0)+(t.performance?1:0)}function f(x){if(typeof x==="undefined"){x=i}if(typeof arguments[0]==="string"){var u=arguments[0],w=arguments[1];if(u==="necessary"){w=true}x=l();x[u]=w}else{if(typeof arguments[0]==="object"){x.necessary=true}}var v=new Date();v.setYear(v.getFullYear()+1);bbccookies.set(m+"="+j(x)+";domain=bbc.co.uk;path=/;expires="+v.toUTCString()+";");bbccookies.set(m+"="+j(x)+";domain=bbc.com;path=/;expires="+v.toUTCString()+";");bbccookies.set(m+"="+j(x)+";domain=bbci.co.uk;path=/;expires="+v.toUTCString()+";");var t=new Date(v.getTime());t.setMonth(t.getMonth()+1);bbccookies.set(bbccookies.POLICY_EXPIRY_COOKIENAME+"="+v.getTime()+";domain=bbc.co.uk;path=/;expires="+t.toUTCString()+";");bbccookies.set(bbccookies.POLICY_EXPIRY_COOKIENAME+"="+v.getTime()+";domain=bbc.com;path=/;expires="+t.toUTCString()+";");bbccookies.set(bbccookies.POLICY_EXPIRY_COOKIENAME+"="+v.getTime()+";domain=bbci.co.uk;path=/;expires="+t.toUTCString()+";");return x}function o(t){if(t===null){return null}var u=t.split("");return{ads:!!+u[0],personalisation:!!+u[1],performance:!!+u[2],necessary:true}}function n(){var t=new RegExp("(?:^|; ?)"+m+"=(\\d\\d\\d)($|;)"),u=document.cookie.match(t);if(!u){return null}return u[1]}function l(t){var u=o(n());if(!u){u=i}if(t){return u[t]}else{return u}}function e(t){return document.cookie=t+"=;expires="+q+";"}var g=!(window.bbccookies_flag==="ON"&&!bbccookies._acceptsAll()&&!window.bbccookies_disable);var k={},d={"personalisation":"ckps_.+|X-AB-iplayer-.+|ACTVTYMKR|BBC_EXAMPLE_COOKIE|BBCIplayer|BBCiPlayerM|BBCIplayerSession|BBCMediaselector|BBCPostcoder|bbctravel|CGISESSID|ed|food-view|forceDesktop|h4|IMRID|locserv|MyLang|myloc|NTABS|ttduserPrefs|V5|WEATHER|BBCScienceDiscoveryPlaylist_.+|bitratePref|correctAnswerCount|genreCookie|highestQuestionScore|incorrectAnswerCount|longestStreak|MSCSProfile|programmes-oap-expanded|quickestAnswer|score|servicePanel|slowestAnswer|totalTimeForAllFormatted|v|BBCwords|score|correctAnswerCount|highestQuestionScore|hploc|BGUID|BBCWEACITY|mstouch|myway|BBCNewsCustomisation|cbbc_anim|cbeebies_snd|bbcsr_usersx|cbeebies_rd|BBC-Latest_Blogs|zh-enc|pref_loc|m|bbcEmp.+|recs-.+|_lvd2|_lvs2|tick|_fcap_CAM1|_rcc2","performance":"ckpf_.+|optimizely.*|BBCLiveStatsClick|id|_em_.+|cookies_enabled|mbox|mbox-admin|mc_.+|omniture_unique|s_.+|sc_.+|adpolicyAdDisplayFrequency|s1|ns_session|ns_cookietest|ns_ux|NO-SA|tr_pr1|gvsurvey|bbcsurvey|si_v|sa_labels|obuid|mm_.+|mmid|mmcore.+|mmpa.+","ads":"ckad_.+|rsi_segs|c","necessary":"ckns_.+|BBC-UID|blq\\.dPref|SSO2-UID|BBC-H2-User|rmRpDetectReal|bbcComSurvey|IDENTITY_ENV|IDENTITY|IDENTITY-HTTPS|IDENTITY_SESSION|BBCCOMMENTSMODULESESSID|bbcBump.+|IVOTE_VOTE_HISTORY|pulse|BBCPG|BBCPGstat|ecos\\.dt"};function r(){var x=document.cookie.replace(/; +/g,";").split(";"),u,v=[];for(var w=0,t=x.length;w<t;w++){u=x[w];v.push(bbccookies._getCookieName(u))}return v}function h(w){var v=JSON.stringify(w);if(typeof(k[v])!=="undefined"){return k[v]}var u="";for(var t in w){if(w.hasOwnProperty(t)&&d[t]){if(w[t]===true){u+=(u?"|":"")+d[t]}}}k[v]=new RegExp("^("+(u?u:".*")+")$","i");return k[v]}bbccookies.getPolicyExpiryDateTime=function(){return bbccookies.POLICY_EXPIRY_COOKIENAME};bbccookies.purge=function(){var u=bbccookies.readPolicy(),w=r(),x;for(var v=0,t=w.length;v<t;v++){if(!bbccookies.isAllowed(w[v],u)){x=new Date();x.setTime(0);x=x.toUTCString();s(w[v],"deleted",x)}}};function p(){if(g){return}bbccookies.purge();contentLoaded(window,bbccookies.purge);if(window.addEventListener){window.addEventListener("beforeunload",bbccookies.purge,false)}else{if(window.attachEvent){window.attachEvent("onbeforeunload",bbccookies.purge)}else{window.onbeforeunload=bbccookies.purge}}}bbccookies.set=function(u,t){if(g){return document.cookie=u}var v=bbccookies._getCookieName(u);if(t||bbccookies.isAllowed(v)){return document.cookie=u}return null};bbccookies.isAllowed=function(v){var u=bbccookies.readPolicy();var t=h(u);return t.test(v)};p()})();
+/*!
+ * contentloaded.js
+ *
+ * Author: Diego Perini (diego.perini at gmail.com)
+ * Summary: cross-browser wrapper for DOMContentLoaded
+ * Updated: 20101020
+ * License: MIT
+ * Version: 1.2
+ *
+ * URL:
+ * http://javascript.nwbox.com/ContentLoaded/
+ * http://javascript.nwbox.com/ContentLoaded/MIT-LICENSE
+ *
+ */
+function contentLoaded(d,i){var c=false,h=true,k=d.document,j=k.documentElement,a=k.addEventListener,n=a?"addEventListener":"attachEvent",l=a?"removeEventListener":"detachEvent",b=a?"":"on",m=function(o){if(o.type==="readystatechange"&&k.readyState!="complete"){return}(o.type==="load"?d:k)[l](b+o.type,m,false);if(!c&&(c=true)){i.call(d,o.type||o)}},g=function(){try{j.doScroll("left")}catch(o){setTimeout(g,50);return}m("poll")};if(k.readyState==="complete"){i.call(d,"lazy")}else{if(!a&&j.doScroll){try{h=!d.frameElement}catch(f){}if(h){g()}}k[n](b+"DOMContentLoaded",m,false);k[n](b+"readystatechange",m,false);d[n](b+"load",m,false)}}if(typeof(require)==="function"&&!require.defined("orb/cookies")){define("orb/cookies",window.bbccookies)}; /*]]>*/</script>      <script type="text/javascript"> if (! window.gloader) { window.gloader = [ "glow", {map: "http://node1.bbcimg.co.uk/glow/glow/map.1.7.7.js"}]; } </script>  <script type="text/javascript" src="http://node1.bbcimg.co.uk/glow/gloader.0.1.6.js"></script>    <!--orb.ws.require.lib--> <script class="js-require-lib" src="http://static.bbci.co.uk/frameworks/requirejs/lib.js"></script> <script type="text/javascript">  bbcRequireMap = {"jquery-1":"http://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.7.2", "jquery-1.4":"http://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.4", "jquery-1.9":"http://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.9.1", "jquery-1.12":"http://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-1.12.0.min", "jquery-2.2":"http://static.bbci.co.uk/frameworks/jquery/0.4.1/sharedmodules/jquery-2.2.0.min", "istats-1":"//nav.files.bbci.co.uk/nav-analytics/0.1.0-43/js/istats-1", "swfobject-2":"http://static.bbci.co.uk/frameworks/swfobject/0.1.10/sharedmodules/swfobject-2", "demi-1":"http://static.bbci.co.uk/frameworks/demi/0.10.1/sharedmodules/demi-1", "gelui-1":"http://static.bbci.co.uk/frameworks/gelui/0.9.13/sharedmodules/gelui-1", "cssp!gelui-1/overlay":"http://static.bbci.co.uk/frameworks/gelui/0.9.13/sharedmodules/gelui-1/overlay.css", "relay-1":"http://static.bbci.co.uk/frameworks/relay/0.2.6/sharedmodules/relay-1", "clock-1":"http://static.bbci.co.uk/frameworks/clock/0.1.9/sharedmodules/clock-1", "canvas-clock-1":"http://static.bbci.co.uk/frameworks/clock/0.1.9/sharedmodules/canvas-clock-1", "cssp!clock-1":"http://static.bbci.co.uk/frameworks/clock/0.1.9/sharedmodules/clock-1.css", "jssignals-1":"http://static.bbci.co.uk/frameworks/jssignals/0.3.6/modules/jssignals-1", "jcarousel-1":"http://static.bbci.co.uk/frameworks/jcarousel/0.1.10/modules/jcarousel-1", "bump-3":"//emp.bbci.co.uk/emp/bump-3/bump-3", "components/average-conditions":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/average-conditions", "components/average-conditions/chart-config":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/average-conditions/chart-config", "components/average-conditions/chart-legend":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/average-conditions/chart-legend", "components/average-conditions/chart-theme":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/average-conditions/chart-theme", "components/average-conditions/chart":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/average-conditions/chart", "components/average-conditions/table-parser":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/average-conditions/table-parser", "components/average-conditions/tabs":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/average-conditions/tabs", "components/coast-sea/coastal-sections":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/coast-sea/coastal-sections", "components/coast-sea/list-with-warnings":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/coast-sea/list-with-warnings", "components/coast-sea/tide-graph-config":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/coast-sea/tide-graph-config", "components/coast-sea/tide-graph":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/coast-sea/tide-graph", "components/coast-sea/tide-tables":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/coast-sea/tide-tables", "components/contact-us":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/contact-us", "components/dotcom-travel":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/dotcom-travel", "components/forecast-carousel":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/forecast-carousel", "components/forecast-details":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/forecast-details", "components/forecast-details/loupe":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/forecast-details/loupe", "components/forecast-summary":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/forecast-summary", "components/forecast-videos-morph":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/forecast-videos-morph", "components/forecast-videos":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/forecast-videos", "components/istats-tracking":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/istats-tracking", "components/maps":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps", "components/maps/OpenLayers/Layer/ForecastMarkers":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/OpenLayers/Layer/ForecastMarkers", "components/maps/OpenLayers/Layer/Weather":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/OpenLayers/Layer/Weather", "components/maps/OpenLayers/PinPoints/Forecast":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/OpenLayers/PinPoints/Forecast", "components/maps/OpenLayers/PinPoints/Location":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/OpenLayers/PinPoints/Location", "components/maps/Providers/Weather":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/Providers/Weather", "components/maps/forecastmap/DataLoader":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/forecastmap/DataLoader", "components/maps/forecastmap/Draggable":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/forecastmap/Draggable", "components/maps/forecastmap/ForecastLayerManager":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/forecastmap/ForecastLayerManager", "components/maps/forecastmap/ForecastMapController":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/forecastmap/ForecastMapController", "components/maps/forecastmap/ForecastMapModel":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/forecastmap/ForecastMapModel", "components/maps/forecastmap/ForecastMapView":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/forecastmap/ForecastMapView", "components/maps/forecastmap/GenericTree":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/forecastmap/GenericTree", "components/maps/forecastmap/KeyFocusHandler":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/forecastmap/KeyFocusHandler", "components/maps/forecastmap/PressureMapController":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/forecastmap/PressureMapController", "components/maps/forecastmap/PressureMapModel":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/forecastmap/PressureMapModel", "components/maps/forecastmap/PressureMapView":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/forecastmap/PressureMapView", "components/maps/forecastmap/TemporalNavLabel":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/forecastmap/TemporalNavLabel", "components/maps/forecastmap/TemporalNavView":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/maps/forecastmap/TemporalNavView", "components/my-favourites":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/my-favourites", "components/promo":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/promo", "components/rss-panel":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/rss-panel", "components/settings-panel":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/settings-panel", "components/spec/forecast-videos-spec.html":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/spec/forecast-videos-spec.html", "components/spec/forecast-videos-spec":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/spec/forecast-videos-spec", "components/spec/promo-spec.html":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/spec/promo-spec.html", "components/spec/promo-spec":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/spec/promo-spec", "components/tabbed-forecast":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/tabbed-forecast", "components/unit-switching":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/unit-switching", "components/warnings":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/warnings", "components/welcome":"http://static.bbci.co.uk/weather/0.5.4506/modules/components/welcome", "domReady":"http://static.bbci.co.uk/weather/0.5.4506/modules/domReady", "i18n":"http://static.bbci.co.uk/weather/0.5.4506/modules/i18n", "jqueryui/accordion":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/accordion", "jqueryui/autocomplete":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/autocomplete", "jqueryui/button":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/button", "jqueryui/core":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/core", "jqueryui/datepicker-af":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-af", "jqueryui/datepicker-ar-DZ":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-ar-DZ", "jqueryui/datepicker-ar":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-ar", "jqueryui/datepicker-az":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-az", "jqueryui/datepicker-be":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-be", "jqueryui/datepicker-bg":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-bg", "jqueryui/datepicker-bs":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-bs", "jqueryui/datepicker-ca":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-ca", "jqueryui/datepicker-cs":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-cs", "jqueryui/datepicker-cy-GB":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-cy-GB", "jqueryui/datepicker-da":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-da", "jqueryui/datepicker-de":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-de", "jqueryui/datepicker-el":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-el", "jqueryui/datepicker-en-AU":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-en-AU", "jqueryui/datepicker-en-GB":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-en-GB", "jqueryui/datepicker-en-NZ":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-en-NZ", "jqueryui/datepicker-eo":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-eo", "jqueryui/datepicker-es":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-es", "jqueryui/datepicker-et":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-et", "jqueryui/datepicker-eu":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-eu", "jqueryui/datepicker-fa":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-fa", "jqueryui/datepicker-fi":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-fi", "jqueryui/datepicker-fo":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-fo", "jqueryui/datepicker-fr-CA":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-fr-CA", "jqueryui/datepicker-fr-CH":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-fr-CH", "jqueryui/datepicker-fr":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-fr", "jqueryui/datepicker-gl":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-gl", "jqueryui/datepicker-he":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-he", "jqueryui/datepicker-hi":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-hi", "jqueryui/datepicker-hr":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-hr", "jqueryui/datepicker-hu":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-hu", "jqueryui/datepicker-hy":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-hy", "jqueryui/datepicker-id":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-id", "jqueryui/datepicker-is":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-is", "jqueryui/datepicker-it":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-it", "jqueryui/datepicker-ja":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-ja", "jqueryui/datepicker-ka":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-ka", "jqueryui/datepicker-kk":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-kk", "jqueryui/datepicker-km":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-km", "jqueryui/datepicker-ko":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-ko", "jqueryui/datepicker-ky":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-ky", "jqueryui/datepicker-lb":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-lb", "jqueryui/datepicker-lt":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-lt", "jqueryui/datepicker-lv":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-lv", "jqueryui/datepicker-mk":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-mk", "jqueryui/datepicker-ml":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-ml", "jqueryui/datepicker-ms":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-ms", "jqueryui/datepicker-nb":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-nb", "jqueryui/datepicker-nl-BE":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-nl-BE", "jqueryui/datepicker-nl":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-nl", "jqueryui/datepicker-nn":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-nn", "jqueryui/datepicker-no":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-no", "jqueryui/datepicker-pl":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-pl", "jqueryui/datepicker-pt-BR":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-pt-BR", "jqueryui/datepicker-pt":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-pt", "jqueryui/datepicker-rm":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-rm", "jqueryui/datepicker-ro":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-ro", "jqueryui/datepicker-ru":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-ru", "jqueryui/datepicker-sk":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-sk", "jqueryui/datepicker-sl":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-sl", "jqueryui/datepicker-sq":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-sq", "jqueryui/datepicker-sr-SR":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-sr-SR", "jqueryui/datepicker-sr":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-sr", "jqueryui/datepicker-sv":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-sv", "jqueryui/datepicker-ta":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-ta", "jqueryui/datepicker-th":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-th", "jqueryui/datepicker-tj":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-tj", "jqueryui/datepicker-tr":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-tr", "jqueryui/datepicker-uk":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-uk", "jqueryui/datepicker-vi":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-vi", "jqueryui/datepicker-zh-CN":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-zh-CN", "jqueryui/datepicker-zh-HK":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-zh-HK", "jqueryui/datepicker-zh-TW":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker-zh-TW", "jqueryui/datepicker":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/datepicker", "jqueryui/dialog":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/dialog", "jqueryui/draggable":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/draggable", "jqueryui/droppable":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/droppable", "jqueryui/effect-blind":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/effect-blind", "jqueryui/effect-bounce":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/effect-bounce", "jqueryui/effect-clip":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/effect-clip", "jqueryui/effect-drop":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/effect-drop", "jqueryui/effect-explode":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/effect-explode", "jqueryui/effect-fade":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/effect-fade", "jqueryui/effect-fold":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/effect-fold", "jqueryui/effect-highlight":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/effect-highlight", "jqueryui/effect-pulsate":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/effect-pulsate", "jqueryui/effect-scale":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/effect-scale", "jqueryui/effect-shake":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/effect-shake", "jqueryui/effect-slide":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/effect-slide", "jqueryui/effect-transfer":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/effect-transfer", "jqueryui/effect":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/effect", "jqueryui/menu":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/menu", "jqueryui/mouse":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/mouse", "jqueryui/position":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/position", "jqueryui/progressbar":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/progressbar", "jqueryui/resizable":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/resizable", "jqueryui/selectable":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/selectable", "jqueryui/slider":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/slider", "jqueryui/sortable":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/sortable", "jqueryui/spinner":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/spinner", "jqueryui/tabs":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/tabs", "jqueryui/tooltip":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/tooltip", "jqueryui/widget":"http://static.bbci.co.uk/weather/0.5.4506/modules/jqueryui/widget", "lib/highcharts":"http://static.bbci.co.uk/weather/0.5.4506/modules/lib/highcharts", "lib/highcharts.src":"http://static.bbci.co.uk/weather/0.5.4506/modules/lib/highcharts.src", "lib/jquery.ajax-cache-response":"http://static.bbci.co.uk/weather/0.5.4506/modules/lib/jquery.ajax-cache-response", "lib/jquery.autogrow-textarea":"http://static.bbci.co.uk/weather/0.5.4506/modules/lib/jquery.autogrow-textarea", "lib/jquery.jcarousel":"http://static.bbci.co.uk/weather/0.5.4506/modules/lib/jquery.jcarousel", "lib/jquery.mockjax":"http://static.bbci.co.uk/weather/0.5.4506/modules/lib/jquery.mockjax", "lib/jquery.scrollTo":"http://static.bbci.co.uk/weather/0.5.4506/modules/lib/jquery.scrollTo", "lib/jquery.simplemodal":"http://static.bbci.co.uk/weather/0.5.4506/modules/lib/jquery.simplemodal", "lib/jquery.text-overflow":"http://static.bbci.co.uk/weather/0.5.4506/modules/lib/jquery.text-overflow", "lib/jquery.tmpl":"http://static.bbci.co.uk/weather/0.5.4506/modules/lib/jquery.tmpl", "specs":"http://static.bbci.co.uk/weather/0.5.4506/modules/specs", "test/fakes":"http://static.bbci.co.uk/weather/0.5.4506/modules/test/fakes", "test/lib/json2":"http://static.bbci.co.uk/weather/0.5.4506/modules/test/lib/json2", "test/shared":"http://static.bbci.co.uk/weather/0.5.4506/modules/test/shared", "test/stubs/emp/config":"http://static.bbci.co.uk/weather/0.5.4506/modules/test/stubs/emp/config", "test/stubs/emp/embedded-media":"http://static.bbci.co.uk/weather/0.5.4506/modules/test/stubs/emp/embedded-media", "test/stubs/emp/settings":"http://static.bbci.co.uk/weather/0.5.4506/modules/test/stubs/emp/settings", "test/stubs/util/state":"http://static.bbci.co.uk/weather/0.5.4506/modules/test/stubs/util/state", "tests/init":"http://static.bbci.co.uk/weather/0.5.4506/modules/tests/init", "tests/lib/jasmine-1.3.1/jasmine-html":"http://static.bbci.co.uk/weather/0.5.4506/modules/tests/lib/jasmine-1.3.1/jasmine-html", "cssp!tests/lib/jasmine-1.3.1/jasmine":"http://static.bbci.co.uk/weather/0.5.4506/modules/tests/lib/jasmine-1.3.1/jasmine.css", "tests/lib/jasmine-1.3.1/jasmine":"http://static.bbci.co.uk/weather/0.5.4506/modules/tests/lib/jasmine-1.3.1/jasmine", "tests/lib/jasmine-signals":"http://static.bbci.co.uk/weather/0.5.4506/modules/tests/lib/jasmine-signals", "tests/lib/jasmine.console_reporter":"http://static.bbci.co.uk/weather/0.5.4506/modules/tests/lib/jasmine.console_reporter", "tests/lib/jquery-1.7.2":"http://static.bbci.co.uk/weather/0.5.4506/modules/tests/lib/jquery-1.7.2", "tests/lib/jquery-1.9.1":"http://static.bbci.co.uk/weather/0.5.4506/modules/tests/lib/jquery-1.9.1", "tests/lib/jssignals-1":"http://static.bbci.co.uk/weather/0.5.4506/modules/tests/lib/jssignals-1", "tests/lib/require":"http://static.bbci.co.uk/weather/0.5.4506/modules/tests/lib/require", "translations/nls/cy/weather":"http://static.bbci.co.uk/weather/0.5.4506/modules/translations/nls/cy/weather", "translations/nls/ga/weather":"http://static.bbci.co.uk/weather/0.5.4506/modules/translations/nls/ga/weather", "translations/nls/gd/weather":"http://static.bbci.co.uk/weather/0.5.4506/modules/translations/nls/gd/weather", "translations/nls/weather":"http://static.bbci.co.uk/weather/0.5.4506/modules/translations/nls/weather", "ui/optionpanel":"http://static.bbci.co.uk/weather/0.5.4506/modules/ui/optionpanel", "ui/tabset":"http://static.bbci.co.uk/weather/0.5.4506/modules/ui/tabset", "ui/toggle":"http://static.bbci.co.uk/weather/0.5.4506/modules/ui/toggle", "util/carousel":"http://static.bbci.co.uk/weather/0.5.4506/modules/util/carousel", "util/cookie":"http://static.bbci.co.uk/weather/0.5.4506/modules/util/cookie", "util/device-preference":"http://static.bbci.co.uk/weather/0.5.4506/modules/util/device-preference", "util/dom":"http://static.bbci.co.uk/weather/0.5.4506/modules/util/dom", "util/edition":"http://static.bbci.co.uk/weather/0.5.4506/modules/util/edition", "util/favourites":"http://static.bbci.co.uk/weather/0.5.4506/modules/util/favourites", "util/namespace":"http://static.bbci.co.uk/weather/0.5.4506/modules/util/namespace", "util/sharedLocation":"http://static.bbci.co.uk/weather/0.5.4506/modules/util/sharedLocation", "util/state":"http://static.bbci.co.uk/weather/0.5.4506/modules/util/state", "util/time-ago":"http://static.bbci.co.uk/weather/0.5.4506/modules/util/time-ago", "util/units":"http://static.bbci.co.uk/weather/0.5.4506/modules/util/units", "vendor/echo/echo":"http://static.bbci.co.uk/weather/0.5.4506/modules/vendor/echo/echo", "vendor/eventListener.polyfill":"http://static.bbci.co.uk/weather/0.5.4506/modules/vendor/eventListener.polyfill", "vendor/fastclick":"http://static.bbci.co.uk/weather/0.5.4506/modules/vendor/fastclick", "vendor/i18n":"http://static.bbci.co.uk/weather/0.5.4506/modules/vendor/i18n", "vendor/mustache":"http://static.bbci.co.uk/weather/0.5.4506/modules/vendor/mustache", "weather-built":"http://static.bbci.co.uk/weather/0.5.4506/modules/weather-built", "weather":"http://static.bbci.co.uk/weather/0.5.4506/modules/weather", "locator/locator":"http://static.bbci.co.uk/locator/0.120.0/modules/locator/locator", "locator/utils":"http://static.bbci.co.uk/locator/0.120.0/modules/locator/utils", "locator/search":"http://static.bbci.co.uk/locator/0.120.0/modules/locator/search", "locator/confirm":"http://static.bbci.co.uk/locator/0.120.0/modules/locator/confirm", "locator/autocomplete":"http://static.bbci.co.uk/locator/0.120.0/modules/locator/autocomplete", "locator/mobile/locator":"http://static.bbci.co.uk/locator/0.120.0/modules/locator/mobile/locator", "locator/mobile/vendor/ender/reqwest":"http://static.bbci.co.uk/locator/0.120.0/modules/locator/mobile/vendor/ender/reqwest", "locator/mobile/vendor/ender/bonzo":"http://static.bbci.co.uk/locator/0.120.0/modules/locator/mobile/vendor/ender/bonzo", "locator/mobile/vendor/ender/qwery-mobile":"http://static.bbci.co.uk/locator/0.120.0/modules/locator/mobile/vendor/ender/qwery-mobile", "locator/cookies":"http://static.bbci.co.uk/locator/0.120.0/modules/locator/cookies", "locator/geolocation":"http://static.bbci.co.uk/locator/0.120.0/modules/locator/geolocation", "locator/bootstrap":"http://static.bbci.co.uk/locator/0.120.0/modules/locator/bootstrap", "locator/mobile/bootstrap":"http://static.bbci.co.uk/locator/0.120.0/modules/locator/mobile/bootstrap"}; require({ baseUrl: 'http://static.bbci.co.uk/', paths: bbcRequireMap, waitSeconds: 30 }); </script>  <!-- Nav Analytics : 65 -->
+<script type="text/javascript">window.bbcFlagpoles_istats="ON",require.config({paths:{"istats-1":"//nav.files.bbci.co.uk/nav-analytics/0.1.0-65/js/istats-1"}}),require.defined("orb/cookies")||(window.bbccookies?define("orb/cookies",function(){return window.bbccookies}):define("orb/cookies",function(){return{isAllowed:function(e){return!1}}})),require(["istats-1","orb/cookies"],function(e,o){if(o.isAllowed("s1")){e.addCollector({name:"default",url:"//sa.bbc.co.uk/bbc/bbc/s",separator:"&"});var i="weather.1.page";e.setCountername(i),window.istats_countername&&e.setCountername(window.istats_countername),e.addLabels("ml_name=webmodule&ml_version=65")}});</script>
+
+<script type="text/javascript">/*<![CDATA[*/
+    window.bbcFlagpoles_istats = 'ON';
+    window.orb = window.orb || {};
+
+    if (typeof bbccookies !== 'undefined' && bbccookies.isAllowed('s1')) {
+        var istatsTrackingUrl = '//sa.bbc.co.uk/bbc/bbc/s?name=weather.1.page&pal_route=forecast_page&app_type=web&language=en-GB&pal_webapp=weather&prod_name=weather&app_name=weather';
+        require(['istats-1'], function (istats) {
+            var counterName = (window.istats_countername) ? window.istats_countername : istatsTrackingUrl.match(/[\?&]name=([^&]*)/i)[1];
+            istats.setCountername(counterName);
+
+            istats.addLabels('pal_route=forecast_page&app_type=web&language=en-GB&pal_webapp=weather&prod_name=weather&app_name=weather');
+            var c = (document.cookie.match(/\bckns_policy=(\d\d\d)/) || []).pop() || '';
+            istats.addLabels({
+                                        'blq_s': '2.8d',
+                    'blq_r': '2.7',
+                    'blq_v': 'default-domestic',
+                    'blq_e': 'pal',
+                                        'bbc_mc': (c ? 'ad' + c.charAt(0) + 'ps' + c.charAt(1) + 'pf' + c.charAt(2) : 'not_set')
+                }
+            );
+        });
+    }
+    /*]]>*/</script>
+    <script type="text/javascript" src="http://static.bbci.co.uk/frameworks/barlesque/3.21.17/desktop/2.8/script/blq_core.js"></script>
+    <script type="text/javascript" src="http://static.bbci.co.uk/locator/0.120.0/script/locator.js"></script>
+  <!--[if (IE 6)|(IE 7)|(IE 8)]> <style type="text/css"> html{font-size:125%} body{font-size:50%} .blq-tooltipped:hover {background-position:0 0} #blq-autosuggest ul li { zoom:normal; } .skylightTheme #blq-mast-home, .doveTheme #blq-mast-home, .tealTheme #blq-mast-home, .aquaTheme #blq-mast-home, .greenTheme #blq-mast-home, .violetTheme #blq-mast-home, .purpleTheme #blq-mast-home, .pinkTheme #blq-mast-home, .oliveTheme #blq-mast-home, .suedeTheme #blq-mast-home, .redTheme #blq-mast-home, .orangeTheme #blq-mast-home { filter: none; -ms-filter: ""; } #blq-nav-main { background-position: 96% 17px; } </style> <![endif]--> <!--[if IE 7]> <link rel="stylesheet" href="http://static.bbci.co.uk/frameworks/barlesque/3.21.17/desktop/2.8/style/ie7.css" type="text/css" /> <style type="text/css"> .blq-clearfix {display: inline-block} </style> <![endif]-->  <!--[if IE 6]> <link rel="stylesheet" href="http://static.bbci.co.uk/frameworks/barlesque/3.21.17/desktop/2.8/style/ie6.css" type="text/css" /> <style type="text/css"> .blq-js #blq-nav-foot div {filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://static.bbci.co.uk/frameworks/barlesque/3.21.17/desktop/2.8/img/panel.png', sizingMethod='image');margin-top:-139px}  #blq-container {height: 15%} #blq-mast-home span.blq-home { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod='crop', src='http://static.bbci.co.uk/frameworks/barlesque/3.21.17/desktop/2.8/img/blocks.png');} #blq-mast #blq-search-btn { background: none; filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://static.bbci.co.uk/frameworks/barlesque/3.21.17/desktop/2.8/img/blq-search_grey_alpha.png', sizingMethod='image'); } </style>  <script type="text/javascript"> try { document.execCommand("BackgroundImageCache",false,true); } catch(e) {} </script> <![endif]-->  <script type="text/javascript"> blq.assetPath="http://static.bbci.co.uk/frameworks/barlesque/3.21.17/desktop/2.8/"; blqOnDomReady(function() {  blq.suggest_short = false; blq.addAutoSuggest(); });  blq.setEnvironment('live');  if (! /bbc\.co\.uk$/i.test(window.location.hostname) ) { document.documentElement.className += ' blq-not-bbc-co-uk'; }  </script>   <script type="text/javascript"> /*<![CDATA[*/ function oqsSurveyManager(w, flag) { if (flag !== 'OFF' && (w.orb.fig("no") || w.orb.fig("uk"))) { w.document.write('<script type="text/javascript" src="http://static.bbci.co.uk/frameworks/barlesque/3.21.17/desktop/2.8/script/vendor/edr.min.js"><'+'/script>'); } } oqsSurveyManager(window, 'ON'); /*]]>*/ </script>          <!-- BBCDOTCOM template: desktop journalismVariant: false ipIsAdvertiseCombined: false adsEnabled: true flagpole: ON adsenseEnabled: true adsense flagpole: ON -->
+            <script type="text/javascript">
+            /*<![CDATA[*/
+
+                        var _sf_startpt = (new Date()).getTime();
+            
+            if (window.bbcdotcom === undefined) {
+                var bbcdotcom = {
+                    adverts: {
+                        keyValues: {
+                            set: function() {}
+                        }
+                    },
+                    advert: {
+                        write: function () {},
+                        show: function () {},
+                        isActive: function () {
+                            return false;
+                        },
+                        layout: function() {
+                            return {
+                                reset: function() {}
+                            }
+                        }
+                    },
+                    config: {
+                        init: function() {},
+                        isActive: function() {},
+                        setSections: function() {},
+                        isAdsEnabled: function() {},
+                        setAdsEnabled: function() {},
+                        isAnalyticsEnabled: function() {},
+                        setAnalyticsEnabled: function() {},
+                        setAssetPrefix: function() {},
+                        setJsPrefix: function() {},
+                        setSwfPrefix: function() {},
+                        setCssPrefix: function() {},
+                        setConfig: function() {},
+                        getJsPrefix: function () {},
+                        getSwfPrefix: function () {},
+                        getCssPrefix: function () {},
+                        setVersion: function () {},
+                        getVersion: function () {}
+                    },
+                    survey: {
+                        init: function(){ return false; }
+                    },
+                    data: {},
+                    init: function() {},
+                    objects: function(str) {
+                        return false;
+                    },
+                    locale: {
+                        set: function() {}
+                    },
+                    setAdKeyValue: function() {},
+                    utils: {
+                        addEvent: function() {},
+                        addHtmlTagClass: function() {},
+                        log: function () {}
+                    },
+                    addLoadEvent: function() {}
+                };
+            }
+            bbcdotcom.objects = function (strName, action, obj) {
+                var i,
+                    len,
+                    args = arguments,
+                    nameParts = strName.split(".");
+                if (action === undefined) {
+                    action = 'valid';
+                }
+                if (obj === undefined) {
+                    obj = window;
+                }
+                for (i = 0, len = nameParts.length; i < len; i++) {
+                    if (obj[nameParts[i]] === undefined) {
+                        if (action === 'create') {
+                            obj[nameParts[i]] = {};
+                        } else {
+                            return false;
+                        }
+                    } else if (typeof obj[nameParts[i]] === 'function') {
+                        if (typeof args[1] !== 'undefined' && args[1] !== null && obj[nameParts[i]](args[1]) !== undefined) {
+                            return obj[nameParts[i]](args[1]);
+                        } else if (obj[nameParts[i]]() !== undefined) {
+                            return obj[nameParts[i]]();
+                        }
+                    }
+                    obj = obj[nameParts[i]];
+                }
+                return obj;
+            };
+            /*]]>*/
+        </script>
+        <style type="text/css">.bbccom_display_none{display:none;}</style>
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            bbcdotcom.objects('bbcdotcom.stats', 'create');
+            /* Create BBC.adverts skeleton */
+            if (window.BBC === undefined) {
+                var BBC = {};
+            }
+            if (window.BBC.adverts === undefined) {
+                BBC.adverts = {
+                    setZone: function () {},
+                    configure: function () {},
+                    write: function () {},
+                    show: function () {},
+                    isActive: function () {
+                        return false;
+                    },
+                    hasStyles: function() {},
+                    setScriptRoot: function () {},
+                    setImgRoot: function () {},
+                    getAdvertTag: function () {},
+                    getSectionPath: function() {},
+                    showPartnerButtons: function() {}
+                };
+            }
+            (function(){
+                if(typeof require !== 'undefined') {
+                    require({
+                        paths:{
+                            "bbcdotcom":"http://static.bbci.co.uk/bbcdotcom/1.54.0/script"
+                        }
+                    });
+                }
+            })();
+            if (typeof orb !== 'undefined' && typeof orb.fig === 'function') {
+                bbcdotcom.data = {
+                    a: orb.fig('ad')? 1 : 0,
+                    b: (0 == orb.fig('uk')) ? 1 : 0,
+                    c: orb.fig('ap')
+                };
+            } else {
+                document.write('<script type="text/javascript" src="http://tps.bbc.com/wwscripts/data">\x3C/script>');
+            }
+            /*]]>*/
+        </script>
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            if (typeof bbcdotcom.data == 'undefined' || typeof bbcdotcom.data.a == 'undefined' || typeof bbcdotcom.data.b == 'undefined' || typeof bbcdotcom.data.c == 'undefined') {
+                bbcdotcom.data = {a:0,b:0,c:0};
+            }
+            if (bbcdotcom.data.a == 1) {
+                document.write('<script type="text/javascript" src="http://www.bbc.co.uk/wwscripts/flag">\x3C/script>');
+            }
+            /*]]>*/
+        </script>                                   <script type="text/javascript">                 /*<![CDATA[*/
+            if (typeof bbcdotcom.flag == 'undefined' || bbcdotcom.flag.a != 1) {
+                                bbcdotcom.data.a = 0;
+            }
+            /*]]>*/
+        </script>
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            if (bbcdotcom.data.a == 1 || bbcdotcom.data.b == 1) {
+                                bbcdotcom.assetPrefix = "http://static.bbci.co.uk/bbcdotcom/1.54.0/";
+                document.write('<link rel="stylesheet" type="text/css" href="http://static.bbci.co.uk/bbcdotcom/1.54.0/style/3pt_ads.css" />');
+                document.write('<script type="text/javascript" src="//www.googletagservices.com/tag/js/gpt.js">\x3C/script>');
+                                document.write('<script type="text/javascript" src="http://static.bbci.co.uk/bbcdotcom/1.54.0/script/dist/bbccom_all.js">\x3C/script>');
+            }
+            /*]]>*/
+        </script>                                   <script type="text/javascript">                 /*<![CDATA[*/
+            if (bbcdotcom.data.a == 1 || bbcdotcom.data.b == 1) {
+                                BBC.adverts.setData(bbcdotcom.data);
+                bbcdotcom.config.setAdsEnabled(bbcdotcom.data.a);
+                bbcdotcom.config.setAnalyticsEnabled(bbcdotcom.data.b);
+                bbcdotcom.config.setJsPrefix("http://static.bbci.co.uk/bbcdotcom/1.54.0/script");
+                bbcdotcom.config.setAssetPrefix("http://static.bbci.co.uk/bbcdotcom/1.54.0/");
+                bbcdotcom.config.setVersion("1.54.0");
+                bbcdotcom.config.setSwfPrefix("http://static.bbci.co.uk/bbcdotcom/1.54.0/swf");
+                bbcdotcom.config.setCssPrefix("http://static.bbci.co.uk/bbcdotcom/1.54.0/style");
+                bbcdotcom.dataOrb = {
+                    ads: bbcdotcom.data.a,
+                    stats: bbcdotcom.data.b,
+                    statsProvider: bbcdotcom.data.c
+                };
+                bbcdotcom.config.setData(bbcdotcom.dataOrb);
+                if(document.location.pathname.indexOf("/weather/coast_and_sea") === 0 || (document.getElementsByName("CPS_ASSET_TYPE").length > 0 && document.getElementsByName("CPS_ASSET_TYPE")[0].content === "PGL")){
+                    bbcdotcom.adsToDisplay = ["leaderboard"];
+                } else if( document.getElementsByName("CPS_ASSET_TYPE").length > 0 && document.getElementsByName("CPS_ASSET_TYPE")[0].content === "MAP" ){
+                    bbcdotcom.adsToDisplay = [];
+                } else if (document.location.pathname.indexOf("/sport") === 0 ){
+                    bbcdotcom.adsToDisplay = ["leaderboard", "mpu", "sponsor_banner"];
+                } else {
+                    bbcdotcom.adsToDisplay = ["leaderboard", "mpu", "sponsor_section"];
+                }
+                bbcdotcom.init({adsToDisplay: bbcdotcom.adsToDisplay});
+
+            }
+            if (bbcdotcom.data.a == 1) {
+                                (function(){
+                    var zoneFile = "3pt_zone_file";
+
+                    bbcdotcom.objects('page', 'create', bbcdotcom);
+                    
+                                        BBC.adverts.setScriptRoot("http://static.bbci.co.uk/bbcdotcom/1.54.0/script/");
+                    BBC.adverts.setImgRoot("http://static.bbci.co.uk/bbcdotcom/1.54.0/img/");
+                    BBC.adverts.init({
+                        domain: "http://www.bbc.co.uk",
+                        location: window.location.pathname,
+                        zoneVersion: zoneFile,
+                        zoneAuto: false,
+                        siteAuto: false,
+                        keywordsAuto: false,
+                        zoneReferrer: document.referrer
+                    });
+                })();
+                if(typeof bbcdotcom !== 'undefined' && typeof bbcdotcom.survey !== 'undefined' && typeof bbcdotcom.survey.init === 'function') {
+                    bbcdotcom.survey.init();
+                }
+            }
+            /*]]>*/
+        </script>
+        <script type="text/javascript">
+        /*<![CDATA[*/
+        if (BBC.adverts.isActive('ads')) {
+            document.write(unescape('%3Cscript id="gnlAdsEnabled" class="bbccom_display_none"%3E%3C/script%3E'));
+        }
+        if (BBC.adverts.isActive('analytics')) {
+            document.write(unescape('%3Cscript id="gnlAnalyticsEnabled" class="bbccom_display_none"%3E%3C/script%3E'));
+        }
+        /*]]>*/
+        </script>
+      <!--[if IE 6]> <link type="text/css" rel="stylesheet" href="http://static.bbci.co.uk/locator/weather/0.19.0/style/locator-weather-ie6.css" /> <![endif]--> <script type="text/javascript"> window.locator = window.locator || {}; window.locator.suppressSearchResultEvents = true; </script>  <script type="text/javascript"> /*<![CDATA[*/ window.locator = window.locator || {}; window.locator.screen = 'desktop';  window.locator.search = window.locator.search || {};  window.locator.search['default'] = { options: { isPostcodeUnitAllowed: false, isPostcodeDistrictAllowed: true, truncationLengths: { search: 37, autocomplete: 39 }, filter: 'international', place_types: [], restrict_to_countries: [], emitJavascriptEvent: false, language: 'en-GB', autosuggest: { enabled: true }, reversegeocode: { enabled: false } }, routes: { search: '/locator/:client/:lang/search.json', targetUri: '/weather/:location_id', reversegeocode: '/locator/default/:lang/reversegeocode.json?latitude=:latitude&longitude=:longitude', autosuggest: '/locator/:client/:lang/autocomplete.json?search={input}' }, translations: { prompt: 'Enter a town, county or UK postcode', error: { search: 'Sorry, we are experiencing technical problems.' }, close: 'Close location search results', tryAgain: 'Please try again', reversegeocode: { detect_label: 'Detect your location', permission_denied: 'Please enable Location Services in your device settings or browser.', permission_unavailable: 'Sorry, the \'detect your location\' feature is not currently available.', service_unavailable: 'Sorry, the \'detect your location\' feature is not currently available.', confirm: 'We have detected your location as', outsideContext: "Your location is not currently supported by this application." } } }; /*]]>*/ </script>    <script src="http://static.bbci.co.uk/id/0.37.24/modules/idcta/dist/idcta-1.min.js"></script>  <script type="text/javascript"> (function () { if (!window.require) { throw new Error('idcta: could not find require module'); } if(typeof(map) == 'undefined') { var map = {}; } if(!!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect) { document.documentElement.className += ' id-svg'; } var ptrt = RegExp("[\\?&]ptrt=([^&#]*)").exec(document.location.href); var ENDPOINT_URL = '//' + ((window.location.protocol == "https:") ? ('www.bbc.co.uk').replace("www.", "ssl.") : ('www.bbc.co.uk').replace("ssl.", "www.")); var ENDPOINT_CONFIG = ('/idcta/config?callback&amp;locale=en-GB&ptrt=' + encodeURI((ptrt ? ptrt[1] : document.location.href))).replace(/\&amp;/g, '&'); var ENDPOINT_TRANSLATIONS = '/idcta/translations?callback&locale=en-GB'; map['idapp-1'] = '//static.bbci.co.uk/idapp/0.72.58/modules/idapp/idapp-1'; map['idcta'] = 'http://static.bbci.co.uk/id/0.37.24/modules/idcta'; map['idcta/config'] = [ENDPOINT_URL + ENDPOINT_CONFIG, 'http://static.bbci.co.uk/id/0.37.24/modules/idcta/fallbackConfig']; map['idcta/translations'] = [ENDPOINT_URL + ENDPOINT_TRANSLATIONS, 'http://static.bbci.co.uk/id/0.37.24/modules/idcta/fallbackTranslations']; require({paths: map}); /* * Temporary code * To be removed when old id-statusbar-config is no longer supported */ define('id-statusbar-config', ['idcta/id-config'], function(conf) { return conf; }); define('idcta/id-statusbar-config', ['idcta/id-config'], function(conf) { return conf; }); })(); </script>                            </head> <body>     <noscript><p style="position: absolute; top: -999em"><img src="//sa.bbc.co.uk/bbc/bbc/s?name=weather.1.page&amp;ml_name&#x3D;webmodule&amp;ml_version&#x3D;65&amp;blq_js_enabled=0&blq_s=2.8d&blq_r=2.7&blq_v=default-domestic&blq_e=pal&pal_route=forecast_page&app_type=web&language=en-GB&pal_webapp=weather&prod_name=weather&app_name=weather" height="1" width="1" alt=""></p></noscript>  <!-- Begin iStats 20100118 (UX-CMC 1.1009.3) --> <script type="text/javascript">/*<![CDATA[*/ if (typeof bbccookies !== 'undefined' && bbccookies.isAllowed('s1')) { (function () { require(['istats-1'], function (istats) { istatsTrackingUrl = istats.getDefaultURL(); if (istats.isEnabled() && bbcFlagpoles_istats === 'ON') { sitestat(istatsTrackingUrl); } else { window.ns_pixelUrl = istatsTrackingUrl; /* used by Flash library to track */ } function sitestat(n) { var j = document, f = j.location, b = ""; if (j.cookie.indexOf("st_ux=") != -1) { var k = j.cookie.split(";"); var e = "st_ux", h = document.domain, a = "/"; if (typeof ns_ != "undefined" && typeof ns_.ux != "undefined") { e = ns_.ux.cName || e; h = ns_.ux.cDomain || h; a = ns_.ux.cPath || a } for (var g = 0, f = k.length; g < f; g++) { var m = k[g].indexOf("st_ux="); if (m != -1) { b = "&" + decodeURI(k[g].substring(m + 6)) } } bbccookies.set(e + "=; expires=" + new Date(new Date().getTime() - 60).toGMTString() + "; path=" + a + "; domain=" + h); } window.ns_pixelUrl = n;  } }); })(); } else { window.istats = {enabled: false}; } /*]]>*/</script> <!-- End iStats (UX-CMC) -->  
+  <div id="blq-container" class="blq-lang-en-GB blq-gvl-2-8"> <div id="blq-pre-mast" lang="en-GB"> <!-- Pre mast --> 
+<!-- BBCDOTCOM leaderboard template:client-side journalismVariant: false ipIsAdvertiseCombined: false adsEnabled: true flagpole: ON showAdAboveBlq: true blqLeaderboardAd: true -->
+            <div id="bbccom_leaderboard_container">
+                    <div id="bbccom_leaderboard_1_2_3_4" class="bbccom_slot">
+        <div class="bbccom_advert bbccom_display_none" id="bbccom_leaderboard">
+            <script type="text/javascript">
+                if (window.bbcdotcom && bbcdotcom.slot) {
+                    bbcdotcom.slot('leaderboard', [1,2,3,4]);
+                } else {
+                    BBC.adverts.write("leaderboard", true);
+                }
+            </script>
+        </div>
+        <script type="text/javascript">
+            if (window.bbcdotcom && bbcdotcom.show) {
+                bbcdotcom.show();
+            } else {
+                BBC.adverts.show("leaderboard");
+            }
+        </script>
+    </div>
+        </div>
+     </div>  <script type="text/html" id="blq-bbccookies-tmpl"><![CDATA[ <div id="bbccookies-prompt" class="bbccookies-d"> <h2> Cookies on the BBC website </h2> <p> The BBC has updated its cookie policy. We use cookies to ensure that we give you the best experience on our website. This includes cookies from third party social media websites if you visit a page which contains embedded content from social media. Such third party cookies may track your use of the BBC website.<span class="bbccookies-international-message"> We and our partners also use cookies to ensure we show you advertising that is relevant to you.</span> If you continue without changing your settings, we'll assume that you are happy to receive all cookies on the BBC website. However, you can <a href="/privacy/cookies/managing/cookie-settings.html">change your cookie settings</a> at any time. </p> <ul> <li id="bbccookies-continue"> <button type="button" id="bbccookies-continue-button">Continue</button> </li> <li id="bbccookies-more"><a href="/privacy/cookies/bbc">Find out more</a></li></ul> </div> ]]></script> <script type="text/javascript">/*<![CDATA[*/ (function(){if(bbccookies._showPrompt()){var i=document,b=i.getElementById("blq-pre-mast"),f=i.getElementById("blq-global"),h=i.getElementById("blq-container"),c=i.getElementById("blq-bbccookies-tmpl"),a,g,e;if(b&&i.createElement){a=i.createElement("div");a.id="bbccookies";e=c.innerHTML;e=e.replace("<"+"![CDATA[","").replace("]]"+">","");a.innerHTML=e;if(f){f.insertBefore(a,b)}else{h.insertBefore(a,b)}g=i.getElementById("bbccookies-continue-button");g.onclick=function(){a.parentNode.removeChild(a);return false};bbccookies._setPolicy(bbccookies.readPolicy())}}})(); /*]]>*/</script>  <span id="blq-mast-background"></span> <div id="blq-container-inner" lang="en-GB">  <div id="blq-acc" class="blq-rst">  <p id="blq-mast-home" class="blq-no-images"><a href="/" hreflang="en-GB"> <span id="blq-blocks-wrapper"> <span class="blq-home">British Broadcasting Corporation</span><img src="http://static.bbci.co.uk/frameworks/barlesque/3.21.17/desktop/2.8/img/blocks.png" alt="BBC" id="blq-blocks" width="84" height="24" /><span class="blq-span">Home</span> </span> </a></p>  <p class="blq-hide"><strong><a id="page-top">Accessibility links</a></strong></p> <ul id="blq-acc-links">   <li><a href="#blq-content">Skip to content</a></li>  <li><a href="#blq-local-nav">Skip to local navigation</a></li>  <li><a href="#blq-nav-main">Skip to bbc.co.uk navigation</a></li> <li><a href="#blq-search">Skip to bbc.co.uk search</a></li>  <li><a href="/accessibility/">Accessibility Help</a></li>   </ul> </div>   <div id="blq-main" class="blq-clearfix">     
+
+<div class="error" id="error-404"><h1>Sorry, that page wasn't found</h1>
+<p>Please check your typing and try again...</p><span></span></div>
+    </div>   <div id="blq-mast" class="blq-rst blq-default-domestic blq-new-nav" lang="en-GB"> <div id="blq-sign-in">   <div id="id-status" class="blq-id-v4"> <div class="id-out id-gel"> <h2 class="blq-hide">BBC iD</h2> <a href="https://account.bbc.com/account?ptrt=http%3A%2F%2Fwww.bbc.co.uk%2Fweather%2F1" id="blq-idstatus-link"> <span class="id-icon"> <span></span> </span> <span id="blq-idstatus-text"> BBC iD </span> <span class="id-spinner"></span> <span class="blq-dropdown-arrow"> <span></span> </span> </a> </div> <div id="id-status-nav" > <div class="id-in blq-rst"> <ul> <li> <a name="idDash" class="blq-nogo has-ptrt idDash" href="https://account.bbc.com/account/settings?ptrt=http%3A%2F%2Fwww.bbc.co.uk%2Fweather%2F1"> Settings </a> </li> <li> <a name="idSignout" class="blq-nogo has-ptrt idSignout" href="https://account.bbc.com/signout?ptrt=http%3A%2F%2Fwww.bbc.co.uk%2Fweather%2F1"> Sign out </a> </li> </ul> </div> </div> </div>              </div>  <form method="get" id="blq-search-form" action="http://search.bbc.co.uk/search" accept-charset="utf-8"> <p id="blq-nav-search">  <input type="hidden" name="go" value="toolbar" />  <input type="hidden" name="uri" value="/weather/1" />    <label for="blq-search" class="blq-hide">Search term:</label> <input id="blq-search" type="text" name="q" value="" maxlength="128" /> <input id="blq-search-btn" type="submit" value="Search" /> </p> </form>   <h2 class="blq-hide">BBC navigation</h2> <ul id="blq-nav-main" class="blq-not-uk">      <li id="blq-nav-n"><a href="http://www.bbc.co.uk/news/" hreflang="en-GB">News</a></li>  <li id="blq-nav-s"><a href="http://www.bbc.co.uk/sport/" hreflang="en-GB">Sport</a></li> <li id="blq-nav-w"><a href="http://www.bbc.co.uk/weather/" hreflang="en-GB">Weather</a></li>  <li id="blq-nav-i">  <a href="/iplayer/" hreflang="en-GB">iPlayer</a>  </li>  <li id="blq-nav-t"><a href="/tv/" hreflang="en-GB">TV</a></li>  <li id="blq-nav-r"><a href="/radio/" hreflang="en-GB">Radio</a></li> <li id="blq-nav-m"><a href="#blq-nav">More&hellip;</a></li>  </ul> </div>  <div id="blq-nav" class="blq-blue"> <div id="blq-nav-links" class="blq-clearfix" lang="en-GB"> <div id="blq-nav-links-inner">  <ul class="blq-nav-sub blq-first"> <li><a href="/cbbc">CBBC</a></li> <li><a href="/cbeebies">CBeebies</a></li> <li><a href="/makeitdigital">Make It Digital</a></li> <li><a href="/food/">Food</a></li> <li><a href="/iwonder">iWonder</a></li> </ul> <ul class="blq-nav-sub"> <li><a href="/education">Bitesize</a></li> <li><a href="/music/">Music</a></li> <li><a href="http://www.bbc.com/earth/">Earth</a></li> <li><a href="/arts">Arts</a></li> <li><a href="/taster/">Taster</a></li> </ul> <ul class="blq-nav-sub blq-last"> <li><a href="/local/">Local</a></li> <li><a href="/northernireland/">Northern Ireland</a></li> <li><a href="/scotland/">Scotland</a></li> <li><a href="/wales/">Wales</a></li> </ul>  </div> </div> </div>  <!--[if IE 6]> <div id="blq-ie6-upgrade"> <p> <span>You're using the Internet Explorer 6 browser to view the BBC website. Our site will work much better if you change to a more modern browser. It's free, quick and easy.</span> <a href="http://www.browserchoice.eu/">Find out more <span>about upgrading your browser</span> here&hellip;</a> </p> </div> <![endif]-->  <div id="blq-foot" lang="en-GB" class="blq-rst blq-clearfix blq-foot-grey">  <div id="blq-footlinks"> <h2 class="blq-hide">BBC links</h2> <ul> <li class="blq-footlinks-row"> <ul class="blq-footlinks-row-list">  <li><a href="http://m.bbc.co.uk/">Mobile site</a></li>      <li><a href="/terms/">Terms of Use</a></li>       <li><a href="/aboutthebbc/">About the BBC</a></li>  </ul> </li> <li class="blq-footlinks-row"> <ul class="blq-footlinks-row-list">       <li><a href="/privacy/">Privacy</a></li>       <li><a href="/accessibility/">Accessibility Help</a></li>  </ul> </li> <li class="blq-footlinks-row"> <ul class="blq-footlinks-row-list">       <li><a href="/privacy/cookies/about">Cookies</a></li>        <li><a href="/contact/">Contact the BBC</a></li>   </ul> </li> <li class="blq-footlinks-row"> <ul class="blq-footlinks-row-list">      <li><a href="/guidance/">Parental Guidance</a></li>  </ul> </li>  </ul> </div>   <div id="blq-foot-blocks" class="blq-footer-image-light"><img src="http://static.bbci.co.uk/frameworks/barlesque/3.21.17/desktop/2.8/img/blocks/light.png" width="84" height="24" alt="BBC" /></div> <p id="blq-disclaim"><span id="blq-copy">Copyright &copy; 2017 BBC.</span> <a href="/help/web/links/">The BBC is not responsible for the content of external sites. Read more.</a></p> <div id="blq-obit"><p><strong>This page is best viewed in an up-to-date web browser with style sheets (CSS) enabled. While you will be able to view the content of this page in your current browser, you will not be able to get the full visual experience. Please consider upgrading your browser software or enabling style sheets (CSS) if you are able to do so.</strong></p></div> </div> </div> 
+<!-- BBCDOTCOM analytics template:client-side journalismVariant: false ipIsAdvertiseCombined: false adsEnabled: true flagpole: ON -->
+
+    
+                            <script type="text/javascript">
+                /*<![CDATA[*/
+                if (BBC.adverts.isActive('analytics')) {
+                    if (bbcdotcom && bbcdotcom.analytics) {
+                        bbcdotcom.analytics.page();
+                    }
+                }
+                /*]]>*/
+            </script>
+        
+                <!-- Start Nielsen Online SiteCensus V6.0 -->
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            if (BBC.adverts.isActive('nielsen-au')) {
+                <!-- COPYRIGHT 2009 Nielsen Online -->
+                document.write('<script type="text/javascript" src="' + ('https:' == document.location.protocol ? 'https:' : 'http:') + '//secure-au.imrworldwide.com/v60.js">\x3C/script>');
+            }
+            /*]]>*/
+        </script>                                   <script type="text/javascript">                 /*<![CDATA[*/
+            if (BBC.adverts.isActive('nielsen-au')) {
+                nol_t({cid:"au-bbc",content:"0",server:"secure-au"}).record().post();
+            }
+            /*]]>*/
+        </script>
+        <!-- End Nielsen Online SiteCensus V6.0 -->
+
+
+            <!-- Start Nielsen Online SiteCensus V6.0 -->
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            if (BBC.adverts.isActive('nielsen-nz')) {
+                <!-- COPYRIGHT 2009 Nielsen Online -->
+                document.write('<script type="text/javascript" src="' + ('https:' == document.location.protocol ? 'https:' : 'http:') + '//secure-nz.imrworldwide.com/v60.js">\x3C/script>');
+            }
+            /*]]>*/
+        </script>                                   <script type="text/javascript">                 /*<![CDATA[*/
+            if (BBC.adverts.isActive('nielsen-nz')) {
+                nol_t({cid:"nz-bbc",content:"0",server:"secure-nz"}).record().post();
+            }
+            /*]]>*/
+        </script>
+        <!-- End Nielsen Online SiteCensus V6.0 -->
+
+
+            <!-- Start Nielsen Online SiteCensus V6.0 -->
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            if (BBC.adverts.isActive('nielsen-us')) {
+                <!-- COPYRIGHT 2010 Nielsen Online -->
+               (function () {
+                   var d = new Image(1, 1);
+                   d.onerror = d.onload = function () {
+                       d.onerror = d.onload = null;
+                   };
+                   d.src = [('https:' == document.location.protocol ? 'https:' : 'http:') + "//secure-us.imrworldwide.com/cgi-bin/m?ci=us-804789h&amp;cg=0&amp;cc=1&amp;si=", encodeURI(window.location.href), "&amp;rp=",
+                   encodeURI(document.referrer), "&amp;ts=compact&amp;rnd=", (new Date()).getTime()].join('');
+                })();
+            }
+            /*]]>*/
+        </script>
+        <!-- End Nielsen Online SiteCensus V6.0 -->
+
+
+            <!-- Effective Measure BBCCOM-1195 -->
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            if (BBC.adverts.isActive('analytics')) {
+                (function() {
+                    var em = document.createElement('script'); em.type = 'text/javascript'; em.async = true;
+                    em.src = ('https:' == document.location.protocol ? 'https://me-ssl' : 'http://me-cdn') + '.effectivemeasure.net/em.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(em, s);
+                })();
+            }
+            /*]]>*/
+        </script>
+        <!-- End Effective Measure -->
+
+            <!-- Start BBCCOM-5811: Chartbeat Part 2/2 -->
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            if (BBC.adverts.isActive('analytics') && window.location.pathname === '/'
+                && window.bbccookies && bbccookies.readPolicy('performance')
+            ) {
+                var getMetaPropertyContent = function(property) {
+                    var metas = document.getElementsByTagName('meta'),
+                        i;
+                    for (i = 0; i < metas.length; i++) {
+                        if (metas[i].getAttribute("property") == property) {
+                            return metas[i].getAttribute("content");
+                        }
+                    }
+                    return '';
+                };
+                var wwhpEdition = getMetaPropertyContent('wwhp-edition');
+                var _sf_async_config={};
+                /** CONFIGURATION START **/
+                _sf_async_config.uid = 50924;
+                _sf_async_config.domain = "bbc.co.uk";
+                _sf_async_config.title = "Homepage"+(wwhpEdition !== '' ? ' - '+wwhpEdition : '');
+                _sf_async_config.sections = "Homepage"+(wwhpEdition !== '' ? ', Homepage - '+wwhpEdition : '');
+                _sf_async_config.region = wwhpEdition;
+                _sf_async_config.path = "/"+(wwhpEdition !== '' ? '?'+wwhpEdition : '');
+                /** CONFIGURATION END **/
+                (function(){
+                  function loadChartbeat() {
+                    window._sf_endpt=(new Date()).getTime();
+                    var e = document.createElement("script");
+                    e.setAttribute("language", "javascript");
+                    e.setAttribute("type", "text/javascript");
+                    e.setAttribute('src', '//static.chartbeat.com/js/chartbeat.js');
+                    document.body.appendChild(e);
+                  }
+                  var oldonload = window.onload;
+                  window.onload = (typeof window.onload != "function") ?
+                     loadChartbeat : function() { oldonload(); loadChartbeat(); };
+                })();
+            }
+            /*]]>*/
+        </script>
+        <!-- End BBCCOM-5811: Chartbeat Part 2/2 -->
+
+    
+<!-- BBCDOTCOM Body Last -->
+ </div>  <script type="text/javascript"> if (typeof require !== 'undefined') { require(['istats-1'], function(istats){ istats.track('external', { region: document.getElementById('blq-main') }); istats.track('download', { region: document.getElementById('blq-main') }); }); } </script>              <script type="text/javascript">require(["istats-1","orb/cookies"],function(t,o){if(o.isAllowed("s1"))try{if(!require.s.contexts._.config.paths.idcta)return void t.invoke();require(["idcta/idcta-1"],function(o){o&&"function"==typeof o.getIStatsLabels&&t.addLabels(o.getIStatsLabels()),t.invoke()},function(t){throw t})}catch(o){console&&"function"==typeof console.log&&console.log("an exception occurred while adding idcta labels to istats, invoking istats without them",o),t.invoke()}});</script>  </body> </html>             

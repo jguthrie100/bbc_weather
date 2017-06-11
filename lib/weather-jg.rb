@@ -1,11 +1,11 @@
 require 'nokogiri'
 require 'net/http'
 require 'json'
-require 'weather_forecast'
+require 'weather_result'
 
 class Weather
   def self.city(city_id, unit: "c")
-    result = Hash.new
+    result = {}
 
     if city_id.is_a?(Integer) || city_id =~ /^[0-9]+$/
       begin
@@ -31,7 +31,10 @@ class Weather
   end
 
   def self.get_city_id(city_name)
-    JSON.parse(Net::HTTP.get(URI("http://www.bbc.co.uk/locator/default/en-GB/autocomplete.json?search=#{city_name}&filter=international")))
+    city_ids = JSON.parse(Net::HTTP.get(URI("http://www.bbc.co.uk/locator/default/en-GB/autocomplete.json?search=#{city_name}&filter=international")))
+    city_id = city_ids.select {|a| a["fullName"].eql? city_name}
+
+    city_id.empty? ? (return city_ids) : (return city_id)
   end
 
   def self.get_weather_from_bbc_url(url, unit: "c")
@@ -43,25 +46,26 @@ class Weather
       raise ArgumentError, "'#{unit}' is not a recognised unit of temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit)"
     end
 
-    html = Hash.new
+    html = {}
     html[:main] = Nokogiri::HTML(Net::HTTP.get(URI(url)))
 
     if html[:main].css("title")[0].children[0].text[/not found/i]
       raise ArgumentError, "The given URL returned a 404 error. Please check the city ID and try again"
     end
 
-####
-## - Convert to use threads for each html call
-###
-html[:main].css("div.daily-window > ul > li > a").each do |day|
-   day_url = day.attributes["data-ajax-href"].value
-   html[day_url[/[0-9]+$/].to_i] = Nokogiri::HTML(Net::HTTP.get(URI("http://www.bbc.co.uk#{day_url}")))
-end
+    lock = Mutex.new
+    connections = []
+    html[:main].css("div.daily-window > ul > li > a").each do |day|
+       connections << Thread.new {
+         day_url = day.attributes["data-ajax-href"].value
+         day_html = Nokogiri::HTML(Net::HTTP.get(URI("http://www.bbc.co.uk#{day_url}")))
+         lock.synchronize {
+           html[day_url[/[0-9]+$/].to_i] = day_html
+         }
+       }
+    end
+    connections.each {|conn| conn.join}
 
-#    html[:main].css("div.daily-window ul") do |i|
-#      html[i] = Nokogiri::HTML(Net::HTTP.get(URI("#{url}/daily/000?day=#{i}")))
-#    end
-
-    return WeatherForecast.new(html, unit)
+    return WeatherResult.new(html)
   end
 end

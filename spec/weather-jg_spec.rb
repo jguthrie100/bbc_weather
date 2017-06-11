@@ -30,26 +30,9 @@ describe Weather do
     context 'when given a valid numeric city ID' do
       let(:weather) { Weather.city(2647632) }
 
-      it 'should return a Hash containing todays weather data' do
-
+      it 'should return a valid WeatherResult object' do
+        expect(weather.class).to eql(WeatherResult)
         expect(weather.location).to eql("Halifax")
-        expect(weather.current_temp).to match(/^[0-9]+$/)
-        expect(weather.current_humidity).to match(/^[0-9]+%$/)
-        expect(weather.today.high).to match(/^[0-9]+$/)
-        expect(weather.today.low).to match(/^[0-9]+$/)
-        expect(weather.today.sunrise).to match(/^[0-9]{2}:[0-9]{2}$/)
-        expect(weather.today.sunset).to match(/^[0-9]{2}:[0-9]{2}$/)
-      end
-
-      it 'should return a Hash containing tomorrows weather data' do
-p weather.tomorrow
-        expect(weather.location).to eql("Halifax")
-        expect(weather.current_temp).to match(/^[0-9]+$/)
-        expect(weather.current_humidity).to match(/^[0-9]+%$/)
-        expect(weather.tomorrow.high).to match(/^[0-9]+$/)
-        expect(weather.tomorrow.low).to match(/^[0-9]+$/)
-        expect(weather.tomorrow.sunrise).to match(/^[0-9]{2}:[0-9]{2}$/)
-        expect(weather.tomorrow.sunset).to match(/^[0-9]{2}:[0-9]{2}$/)
       end
     end
 
@@ -57,8 +40,11 @@ p weather.tomorrow
       let(:weather_numeric) { Weather.city(2647632) }
       let(:weather_string) { Weather.city("Halifax, Calderdale") }
 
-      it 'should return a Hash containing todays weather data' do
-        expect(weather_numeric).to eql(weather_string)
+      it 'should return the same values as when passing a numeric city ID' do
+        expect(weather_string.class).to eql(WeatherResult)
+        expect(weather_numeric.location).to eql(weather_string.location)
+        expect(weather_numeric.tomorrow.low).to eql(weather_string.tomorrow.low)
+        expect(weather_numeric.days_forward(2).sunrise).to eql(weather_string.days_forward(2).sunrise)
       end
     end
 
