@@ -1,14 +1,15 @@
 require 'nokogiri'
 require 'net/http'
 require 'json'
+require 'weather_result'
 
 class Weather
-  def self.city(city_id, unit: "c")
-    result = Hash.new
+  def self.city(city_id)
+    result = {}
 
     if city_id.is_a?(Integer) || city_id =~ /^[0-9]+$/
       begin
-        result = get_weather_from_bbc_url("http://www.bbc.co.uk/weather/#{city_id}", unit: unit)
+        result = get_weather_from_bbc_url("http://www.bbc.co.uk/weather/en/#{city_id}")
       rescue ArgumentError => e
         if e.to_s[/404/]
           raise ArgumentError, "City ID: #{city_id} not found"
@@ -25,43 +26,59 @@ class Weather
         raise ArgumentError, "City ID: '#{city_id}' returned more than one matching city (#{city_ids}). Please refine your search term"
       else
         # Recursive call using integer city code
-        return Weather.city(city_ids[0]["id"], unit: unit)
+        return Weather.city(city_ids[0]["id"])
       end
     end
     return result
   end
 
   def self.get_city_id(city_name)
-    JSON.parse(Net::HTTP.get(URI("http://www.bbc.co.uk/locator/default/en-GB/autocomplete.json?search=#{city_name}&filter=international")))
+    city_ids = JSON.parse(Net::HTTP.get(URI("http://www.bbc.co.uk/locator/default/en-GB/autocomplete.json?search=#{city_name}&filter=international")))
+    city_id = city_ids.select {|a| a["fullName"].eql? city_name}
+
+    city_id.empty? ? (return city_ids) : (return city_id)
   end
 
-  def self.get_weather_from_bbc_url(url, unit: "c")
-    if unit == "c" || unit == "celcius"
-      unit = "c"
-    elsif unit == "f" || unit == "fahrenheit"
-      unit = "f"
-    else
-      raise ArgumentError, "'#{unit}' is not a recognised unit of temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit)"
-    end
+  def self.get_weather_from_bbc_url(url)
+    html = {}
+    html[:main] = Nokogiri::HTML(Net::HTTP.get(URI(url)))
 
-    html = Nokogiri::HTML(Net::HTTP.get(URI(url)))
-
-    if html.css("title")[0].children[0].text[/not found/i]
+    if html[:main].css("title")[0].children[0].text[/not found/i]
       raise ArgumentError, "The given URL returned a 404 error. Please check the city ID and try again"
     end
 
-    result = Hash.new
+    lock = Mutex.new
+    connections = []
+    html[:main].css("div.daily-window > ul > li > a").each do |day|
+       connections << Thread.new {
+         day_url = day.attributes["data-ajax-href"].value
+         day_html = Nokogiri::HTML(Net::HTTP.get(URI("http://www.bbc.co.uk#{day_url}")))
+         lock.synchronize {
+           html[day_url[/[0-9]+$/].to_i] = day_html
+         }
+       }
+    end
+    connections.each {|conn| conn.join}
 
-    result[:location] = html.css("span.location-name")[0].children[0].text
-    result[:current_temp] = html.css("span.temperature-value")[0].children[0].text
-    result[:current_humidity] = html.css("p.humidity span")[0].children[0].text
+    return WeatherResult.new(html)
+  end
 
-    result[:high] = html.css("span.max-temp-value span span[data-unit=#{unit}]")[0].children[0].text
-    result[:low] = html.css("span.min-temp-value span span[data-unit=#{unit}]")[0].children[0].text
+  def self.set_unit(unit)
+    if unit == "c" || unit == "celcius"
+      $temp_unit = "c"
+    elsif unit == "f" || unit == "fahrenheit"
+      $temp_unit = "f"
+    elsif unit == "kph" || unit == "km/h"
+      $speed_unit = "kph"
+    elsif unit == "mph"
+      $speed_unit = "mph"
+    else
+      raise ArgumentError, "'#{unit}' is not a recognised unit of speed/temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit), or 'kph' or 'mph' (kilometers per hour or miles per hour)"
+    end
+    return [$temp_unit || "c", $speed_unit || "mph"]
+  end
 
-    result[:sunrise] = html.css("span.sunrise")[0].children[0].text[/\d{2}:\d{2}/]
-    result[:sunset] = html.css("span.sunset")[0].children[0].text[/\d{2}:\d{2}/]
-
-    return result
+  def self.units
+    return [$temp_unit || "c", $speed_unit || "mph"]
   end
 end
