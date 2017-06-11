@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'date'
 
 describe Weather do
   describe '.city' do

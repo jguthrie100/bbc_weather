@@ -36,7 +36,7 @@ class Day
 
     # Get temperature for each TimeSlot
     day_html.css("table.weather tr.temperature > td span[data-unit='c']").each_with_index do |temperature_html, i|
-      @timeslots[i].temperature = temperature_html.children[0].text
+      @timeslots[i].temperature = temperature_html.children[0].text.to_i
     end
 
     # Get wind details for each TimeSlot
@@ -48,7 +48,7 @@ class Day
 
     # Get humidity for each TimeSlot
     day_html.css("table.weather tr.humidity > td.value").each_with_index do |humidity_html, i|
-      @timeslots[i].humidity = humidity_html.children[0].text[/\S+/]
+      @timeslots[i].humidity = humidity_html.children[0].text[/\d+/].to_i
     end
 
     # Get visibility for each TimeSlot
@@ -58,7 +58,7 @@ class Day
 
     # Get pressure for each TimeSlot
     day_html.css("table.weather tr.pressure > td.value").each_with_index do |pressure_html, i|
-      @timeslots[i].pressure = pressure_html.children[0].text[/\S+/] + " Millibars"
+      @timeslots[i].pressure = pressure_html.children[0].text[/\d+/].to_i # In Millibars
     end
 ###
 ### END LOOPS

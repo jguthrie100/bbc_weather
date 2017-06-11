@@ -7,8 +7,8 @@ class WeatherResult
   attr_reader :location, :current_time, :current_temp, :current_humidity, :days
   def initialize(html)
     @location = html[:main].css("span.location-name")[0].children[0].text
-    @current_temp = html[:main].css("span.temperature-value")[0].children[0].text
-    @current_humidity = html[:main].css("p.humidity > span")[0].children[0].text
+    @current_temp = html[:main].css("span.temperature-value")[0].children[0].text.to_i
+    @current_humidity = html[:main].css("p.humidity > span")[0].children[0].text[/\d+/].to_i  # In %
 
     timezone = html[:main].css("div.ack > p")[1].children[0].text[/GMT[+-]\d{4}/]
     @current_time = DateTime.now.new_offset(timezone).to_s

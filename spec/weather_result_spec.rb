@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'date'
 
 describe WeatherResult do
   let(:weather) { Weather.city("Halifax, Calderdale")}
@@ -7,16 +6,15 @@ describe WeatherResult do
   describe '.new' do
     it 'creates new WeatherResult object with initial variables set' do
       expect(weather.location).to eql("Halifax")
-      expect(weather.current_temp).to match(/^[0-9]+$/)
-      expect(weather.current_humidity).to match(/^[0-9]+%$/)
+      expect(weather.current_temp).to eq(18)
+      expect(weather.current_humidity).to eq(73)
     end
   end
   describe '.today' do
     it 'returns the Day object relating to the current day in the searched city' do
       expect(weather.today.class).to eql(Day)
 
-      # For one hour a day during British Summer Time, this test will fail
-      expect(weather.today.date).to eql(DateTime.now.new_offset("GMT").to_s[0...10])
+      expect(weather.today.date).to eql("2017-06-11")
     end
   end
 
@@ -24,8 +22,7 @@ describe WeatherResult do
     it 'returns the Day object relating to the next day in the searched city' do
       expect(weather.tomorrow.class).to eql(Day)
 
-      # For one hour a day during British Summer Time, this test will fail
-      expect(weather.tomorrow.date).to eql((DateTime.now+1).new_offset("GMT").to_s[0...10])
+      expect(weather.tomorrow.date).to eql("2017-06-12")
     end
   end
 
@@ -35,8 +32,8 @@ describe WeatherResult do
       expect(weather.days_forward(3).class).to eql(Day)
 
       # For one hour a day during British Summer Time, this test will fail
-      expect(weather.days_forward(2).date).to eql((DateTime.now+2).new_offset("GMT").to_s[0...10])
-      expect(weather.days_forward(1).date).to eql((DateTime.now+1).new_offset("GMT").to_s[0...10])
+      expect(weather.days_forward(2).date).to eql("2017-06-13")
+      expect(weather.days_forward(4).date).to eql("2017-06-15")
     end
   end
 end
