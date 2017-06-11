@@ -57,18 +57,18 @@ describe Day do
     end
   end
 
-  describe '#at_time' do
+  describe '#at' do
     it 'gets the timeslot closest to the specified time' do
-      expect(weather_halifax.today.at_time("19:45").time).to eql(DateTime.parse("2017-06-11T20:00"))
-      expect(weather_halifax.tomorrow.at_time("00:25").time).to eql(DateTime.parse("2017-06-12T00:00"))
-      expect(weather_halifax.tomorrow.at_time("23:54").time).to eql(DateTime.parse("2017-06-13T00:00"))
-      expect(weather_halifax.tomorrow.at_time(DateTime.parse("2017-06-12T04:45")).time).to eql(DateTime.parse("2017-06-12T05:00"))
+      expect(weather_halifax.today.at("19:45").time).to eql(DateTime.parse("2017-06-11T20:00"))
+      expect(weather_halifax.tomorrow.at("00:25").time).to eql(DateTime.parse("2017-06-12T00:00"))
+      expect(weather_halifax.tomorrow.at("23:54").time).to eql(DateTime.parse("2017-06-13T00:00"))
+      expect(weather_halifax.tomorrow.at(DateTime.parse("2017-06-12T04:45")).time).to eql(DateTime.parse("2017-06-12T05:00"))
     end
 
     it 'throws an error when invalid input is passed in' do
-      expect {weather_halifax.today.at_time(321)}.to raise_error(ArgumentError, "Time must be in the format 'HH:MM' (00-23) i.e. '23:45' or as a DateTime/Time object")
-      expect {weather_halifax.today.at_time("24:00")}.to raise_error(ArgumentError, "Time must be in the format 'HH:MM' (00-23) i.e. '23:45' or as a DateTime/Time object")
-      expect {weather_halifax.today.at_time("1945")}.to raise_error(ArgumentError, "Time must be in the format 'HH:MM' (00-23) i.e. '23:45' or as a DateTime/Time object")
+      expect {weather_halifax.today.at(321)}.to raise_error(ArgumentError, "Time must be in the format 'HH:MM' (00-23) i.e. '23:45' or as a DateTime/Time object")
+      expect {weather_halifax.today.at("24:00")}.to raise_error(ArgumentError, "Time must be in the format 'HH:MM' (00-23) i.e. '23:45' or as a DateTime/Time object")
+      expect {weather_halifax.today.at("1945")}.to raise_error(ArgumentError, "Time must be in the format 'HH:MM' (00-23) i.e. '23:45' or as a DateTime/Time object")
     end
   end
 end

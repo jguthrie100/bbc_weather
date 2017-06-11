@@ -49,4 +49,34 @@ class WeatherResult
     return nil unless i.is_a?(Integer)
     return @days[i]
   end
+
+  def on(day)
+    day = Date.parse(day) if day =~ /\d{4}-\d{2}-\d{2}/
+    if day.is_a?(String)
+      weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+      day_temp = weekdays.select {|d| d.downcase.include?(day.downcase)}.first
+      date = nil
+
+      raise ArgumentError, "'#{day}' is not a valid day" if day_temp.nil?
+      day = day_temp
+
+      7.times do |i|
+        if (Date.today + i).strftime("%A").eql?(day)
+          day = Date.today + i
+          break
+        end
+      end
+    elsif day.is_a?(DateTime)
+      day = Date.parse(day.to_s)
+    end
+
+    # day var is now a Date object
+
+    7.times do |i|
+      if !days_forward(i).nil? && days_forward(i).date.eql?(day)
+        return days_forward(i)
+      end
+    end
+    raise ArgumentError, "'#{day.to_s}' is not in the forecast range (#{@days.first.date.to_s} - #{@days.last.date.to_s})"
+  end
 end

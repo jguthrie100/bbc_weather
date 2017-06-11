@@ -86,7 +86,7 @@ class Day
     @timeslots[i]
   end
 
-  def at_time(time)
+  def at(time)
     if time.is_a?(DateTime) || time.is_a?(Time) || (time.is_a?(String) && time =~ /\d{2}:\d{2}/ && time[0..1].to_i >= 0 && time[0..1].to_i <= 23 && time[2..3].to_i >= 0 && time[2..3].to_i <= 59)
       curr_slot = self.timeslot(0)
       time = "#{@date}T#{time}" if time.is_a?(String)
@@ -110,11 +110,7 @@ class Day
             return curr_slot
           end
         end
-
       end
-
-
-
     else
       raise ArgumentError, "Time must be in the format 'HH:MM' (00-23) i.e. '23:45' or as a DateTime/Time object"
     end
