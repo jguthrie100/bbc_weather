@@ -7,10 +7,9 @@ Gem::Specification.new do |s|
   s.authors     = ["Jamie Guthrie"]
   s.email       = 'jamie.guthrie@gmail.com'
   s.files       = ["lib/weather-jg.rb", "lib/weather_result.rb", "lib/day.rb", "lib/timeslot.rb"]
-  s.add_runtime_dependency 'nokogiri'
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'rspec'
-  s.add_development_dependency 'factory_girl'
+  s.add_runtime_dependency 'nokogiri', '~> 1.8'
+  s.add_development_dependency 'rake', '~> 12.0'
+  s.add_development_dependency 'rspec', '~> 3.6'
   s.homepage    =
     'http://www.github.com/jguthrie100/weather-jg'
   s.license       = 'MIT'

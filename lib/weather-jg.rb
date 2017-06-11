@@ -4,12 +4,12 @@ require 'json'
 require 'weather_result'
 
 class Weather
-  def self.city(city_id, unit: "c")
+  def self.city(city_id)
     result = {}
 
     if city_id.is_a?(Integer) || city_id =~ /^[0-9]+$/
       begin
-        result = get_weather_from_bbc_url("http://www.bbc.co.uk/weather/en/#{city_id}", unit: unit)
+        result = get_weather_from_bbc_url("http://www.bbc.co.uk/weather/en/#{city_id}")
       rescue ArgumentError => e
         if e.to_s[/404/]
           raise ArgumentError, "City ID: #{city_id} not found"
@@ -24,7 +24,7 @@ class Weather
       elsif city_ids.length > 1
         raise ArgumentError, "City ID: '#{city_id}' returned more than one matching city (#{city_ids}). Please refine your search term"
       else
-        return Weather.city(city_ids[0]["id"], unit: unit)
+        return Weather.city(city_ids[0]["id"])
       end
     end
     return result
@@ -37,15 +37,7 @@ class Weather
     city_id.empty? ? (return city_ids) : (return city_id)
   end
 
-  def self.get_weather_from_bbc_url(url, unit: "c")
-    if unit == "c" || unit == "celcius"
-      unit = "c"
-    elsif unit == "f" || unit == "fahrenheit"
-      unit = "f"
-    else
-      raise ArgumentError, "'#{unit}' is not a recognised unit of temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit)"
-    end
-
+  def self.get_weather_from_bbc_url(url)
     html = {}
     html[:main] = Nokogiri::HTML(Net::HTTP.get(URI(url)))
 
@@ -67,5 +59,24 @@ class Weather
     connections.each {|conn| conn.join}
 
     return WeatherResult.new(html)
+  end
+
+  def self.set_unit(unit)
+    if unit == "c" || unit == "celcius"
+      $temp_unit = "c"
+    elsif unit == "f" || unit == "fahrenheit"
+      $temp_unit = "f"
+    elsif unit == "kph" || unit == "km/h"
+      $speed_unit = "kph"
+    elsif unit == "mph"
+      $speed_unit = "mph"
+    else
+      raise ArgumentError, "'#{unit}' is not a recognised unit of speed/temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit), or 'kph' or 'mph' (kilometers per hour or miles per hour)"
+    end
+    return [$temp_unit || "c", $speed_unit || "mph"]
+  end
+
+  def self.units
+    return [$temp_unit || "c", $speed_unit || "mph"]
   end
 end

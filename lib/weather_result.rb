@@ -17,10 +17,15 @@ class WeatherResult
     nextday_timeslots = []
 
     5.times do |i|
-      day = Day.new(html[i])
-      day.date = html[:main].css("div.daily-window > ul > li > a")[i].attributes["data-ajax-href"].value[/\d{4}-\d{2}-\d{2}/]
+      date = html[:main].css("div.daily-window > ul > li > a")[i].attributes["data-ajax-href"].value[/\d{4}-\d{2}-\d{2}/]
+      day = Day.new(html[i], date)
 
-      day.timeslots = nextday_timeslots.concat(day.timeslots) unless nextday_timeslots.empty?
+      # Transfer 'yesterdays' next_day timeslots to today and link up next and prev links
+      unless nextday_timeslots.empty?
+        nextday_timeslots[-1].next = day.timeslots[0]
+        day.timeslots[0].prev = nextday_timeslots[-1]
+        day.timeslots = nextday_timeslots.concat(day.timeslots)
+      end
       nextday_timeslots = day.nextday_timeslots.dup
       day.nextday_timeslots.clear
       @days.push day

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Weather do
-  describe '.city' do
+  describe '#city' do
     context 'when given no arguments' do
       it 'should throw exception' do
         expect {Weather.city}.to raise_error(ArgumentError)
@@ -27,11 +27,11 @@ describe Weather do
     end
 
     context 'when given a valid numeric city ID' do
-      let(:weather) { Weather.city(2647632) }
+      let(:weather_halifax) { Weather.city(2647632) }
 
       it 'should return a valid WeatherResult object' do
-        expect(weather.class).to eql(WeatherResult)
-        expect(weather.location).to eql("Halifax")
+        expect(weather_halifax.class).to eql(WeatherResult)
+        expect(weather_halifax.location).to eql("Halifax")
       end
     end
 
@@ -46,11 +46,47 @@ describe Weather do
         expect(weather_numeric.days_forward(2).sunrise).to eql(weather_string.days_forward(2).sunrise)
       end
     end
+  end
 
-    context 'when given an invalid temperature unit' do
-      it 'should return an ArgumentError' do
-        expect {Weather.city(2647632, unit: "boogie")}.to raise_error(ArgumentError, "'boogie' is not a recognised unit of temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit)")
+  context 'when #set_unit has not yet been called' do
+    describe '#units' do
+      it 'returns the default units' do
+        expect(Weather.units).to eql(["c", "mph"])
       end
+    end
+  end
+
+  describe '#set_unit' do
+    it 'sets the specified unit' do
+      expect(Weather.set_unit("kph")).to eql(["c", "kph"])
+      expect(Weather.set_unit("f")).to eql(["f", "kph"])
+      expect(Weather.set_unit("celcius")).to eql(["c", "kph"])
+      expect(Weather.set_unit("mph")).to eql(["c", "mph"])
+      expect(Weather.set_unit("km/h")).to eql(["c", "kph"])
+      expect(Weather.set_unit("fahrenheit")).to eql(["f", "kph"])
+    end
+
+    it 'should throw an ArgumentError if unit is not valid' do
+      expect {Weather.set_unit("boogietime")}.to raise_error(ArgumentError, "'boogietime' is not a recognised unit of speed/temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit), or 'kph' or 'mph' (kilometers per hour or miles per hour)")
+      expect {Weather.set_unit("g")}.to raise_error(ArgumentError, "'g' is not a recognised unit of speed/temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit), or 'kph' or 'mph' (kilometers per hour or miles per hour)")
+      expect {Weather.set_unit("belcius")}.to raise_error(ArgumentError, "'belcius' is not a recognised unit of speed/temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit), or 'kph' or 'mph' (kilometers per hour or miles per hour)")
+    end
+  end
+
+  describe '#units' do
+    it 'returns the currently set units' do
+      Weather.set_unit("kph")
+      Weather.set_unit("c")
+      expect(Weather.units).to eql(["c", "kph"])
+
+      Weather.set_unit("mph")
+      expect(Weather.units).to eql(["c", "mph"])
+
+      Weather.set_unit("fahrenheit")
+      expect(Weather.units).to eql(["f", "mph"])
+
+      Weather.set_unit("km/h")
+      expect(Weather.units).to eql(["f", "kph"])
     end
   end
 end
