@@ -1,4 +1,4 @@
-### bbc-weather - A wrapper for scraping weather data from the BBC Weather website
+### bbc_weather - A wrapper for scraping weather data from the BBC Weather website
 
 ## Installation
 
@@ -6,11 +6,11 @@ Latest version `0.1.0`
 
 Add the following to your **Gemfile**
 ```bash
-    gem 'bbc-weather'
+    gem 'bbc_weather'
 ```
   or
 ```bash
-    $ gem install bbc-weather
+    $ gem install bbc_weather
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ Add the following to your **Gemfile**
 A successful search for a city returns a `WeatherResult` object containing forecast data
 
 ```ruby
-require 'bbc-weather'
+require 'bbc_weather'
 
 # Load city using city name
 weather = BBCWeather.city("Amsterdam, Netherlands")

@@ -1,6 +1,6 @@
 require 'rspec'
 require 'webmock/rspec'
-require 'bbc-weather'
+require 'bbc_weather'
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
