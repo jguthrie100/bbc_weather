@@ -36,8 +36,9 @@ class BBCWeather
   end
 
   def self.get_city_id(city_name)
-    city_ids = JSON.parse(Net::HTTP.get(URI("http://www.bbc.co.uk/locator/default/en-GB/autocomplete.json?search=#{city_name}&filter=international")))
-    city_id = city_ids.select {|a| a["fullName"].eql? city_name}
+    city_name_d = city_name.downcase
+    city_ids = JSON.parse(Net::HTTP.get(URI("http://www.bbc.co.uk/locator/default/en-GB/autocomplete.json?search=#{city_name_d}&filter=international")))
+    city_id = city_ids.select {|a| a["fullName"].downcase.eql?(city_name_d) || a["fullName"].downcase.eql?("#{city_name_d}, #{city_name_d}") || a["fullName"].downcase.eql?("#{city_name_d}, #{city_name_d} city") }
 
     city_id.empty? ? (return city_ids) : (return city_id)
   end

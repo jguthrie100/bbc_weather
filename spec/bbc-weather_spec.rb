@@ -48,6 +48,15 @@ describe BBCWeather do
     end
   end
 
+  describe '#get_city_id' do
+    context 'when given a valid large city ID' do
+      it 'return the specific city in the autocomplete' do
+        expect(BBCWeather.get_city_id("Manchester")).to eql([{"id"=>"2643123", "name"=>"Manchester", "fullName"=>"Manchester, Manchester"}])
+        expect(BBCWeather.get_city_id("Glasgow")).to eql([{"id"=>"2648579", "name"=>"Glasgow", "fullName"=>"Glasgow, Glasgow City"}])
+      end
+    end
+  end
+
   describe '#units' do
     context 'when #set_units has not been called yet' do
       it 'returns the default units' do

@@ -5,13 +5,13 @@
 Latest version `0.1.0`
 
 Add the following to your **Gemfile**
-
+```bash
     gem 'bbc-weather'
-
+```
   or
-
+```bash
     $ gem install bbc-weather
-
+```
 
 ## Usage
 
