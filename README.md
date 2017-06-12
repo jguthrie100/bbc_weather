@@ -168,8 +168,9 @@ ts.icon_url
 ```
 
 ## Changing units from mph to km/h and from °C to °F
-The units pertaining to wind speed and temperature can be changed from `mph`/`kph` and `°C`/`°F` using the `BBCWeather.set_unit` static method (which dynamically works out which unit you want to set based on pattern matching your input).
+The units pertaining to wind speed and temperature can be changed from `mph`/`kph` and `°C`/`°F` using the `BBCWeather.set_units` static method (which dynamically works out which unit you want to set based on pattern matching your input).
 The default units are `°C` and `mph`.
+After setting the units, all temperature and wind speed calls will return the value according to the new units
 
 ```ruby
 # Get units - returns an Array
@@ -177,21 +178,22 @@ BBCWeather.units
     > ["c", "mph"]
 
 # Set speed to kph
-BBCWeather.set_unit "kph"
+BBCWeather.set_units "kph"
     > ["c", "kph"]
 
-# Set temp to °F
-BBCWeather.set_unit "f"
+# Set temp to °F and speed to mph
+BBCWeather.set_units "f", "mph"
+    > ["f", "mph"]
+
+# Set speed to kph
+BBCWeather.set_units "kph"
     > ["f", "kph"]
 
-BBCWeather.units
-    > ["f", "kph"]
-
-# Get a temperature (which is set to °F)
+# Get a temperature (which is now set to °F)
 weather.current_temp
     > 59
 
-# Get windspeed (which is set to kph)
+# Get windspeed (which is now set to kph)
 weather.today.at("00:00").wind_speed
     > 68
 ```

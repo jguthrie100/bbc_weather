@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'bbc-weather'
-  s.version     = '0.0.1'
+  s.version     = '0.1.0'
   s.date        = '2017-06-09'
   s.summary     = "Get the weather!"
   s.description = "A simple gem to grab the BBC weather forecast for any given city"
@@ -11,6 +11,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake', '~> 12.0'
   s.add_development_dependency 'rspec', '~> 3.6'
   s.homepage    =
-    'http://www.github.com/jguthrie100/weather-jg'
+    'http://www.github.com/jguthrie100/bbc-weather'
   s.license       = 'MIT'
 end
