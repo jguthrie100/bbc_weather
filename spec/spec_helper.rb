@@ -1,6 +1,7 @@
 require 'rspec'
-require 'weather-jg'
 require 'webmock/rspec'
+require 'bbc-weather'
+
 WebMock.disable_net_connect!(allow_localhost: true)
 
 RSpec.configure do |config|

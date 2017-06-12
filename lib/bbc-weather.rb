@@ -3,7 +3,7 @@ require 'net/http'
 require 'json'
 require 'weather_result'
 
-class Weather
+class BBCWeather
   $temp_unit = "c"
   $speed_unit = "mph"
 
@@ -21,7 +21,7 @@ class Weather
       end
     else
       # Convert string location to integer city code
-      city_ids = Weather.get_city_id(city_id)
+      city_ids = BBCWeather.get_city_id(city_id)
 
       if city_ids.length == 0
         raise ArgumentError, "City ID: '#{city_id}' could not be located"
@@ -29,7 +29,7 @@ class Weather
         raise ArgumentError, "City ID: '#{city_id}' returned more than one matching city (#{city_ids}). Please refine your search term"
       else
         # Recursive call using integer city code
-        return Weather.city(city_ids[0]["id"])
+        return BBCWeather.city(city_ids[0]["id"])
       end
     end
     return result

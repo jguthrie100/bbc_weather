@@ -2,12 +2,12 @@ require 'spec_helper'
 require 'date'
 
 describe WeatherResult do
-  let(:weather) { Weather.city("Halifax, Calderdale")}
+  let(:weather) { BBCWeather.city("Halifax, Calderdale")}
 
   describe '#new' do
     it 'creates new WeatherResult object with initial variables set' do
       expect(weather.location).to eql("Halifax")
-      expect(weather.current_temp).to eq(18)
+      expect(weather.current_temp).to eq(15)
       expect(weather.current_humidity).to eq(73)
     end
   end

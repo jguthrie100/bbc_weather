@@ -7,8 +7,8 @@ class WeatherResult
   attr_reader :location, :current_time, :current_temp, :current_humidity, :days
   def initialize(html)
     @location = html[:main].css("span.location-name")[0].children[0].text
-    @current_temp = html[:main].css("span.temperature-value")[0].children[0].text.to_i
-    @current_humidity = html[:main].css("p.humidity > span")[0].children[0].text[/\d+/].to_i  # In %
+    @current_temp = html[:main].css("div.observationsRecord span.temperature-value")[0].children[0].text.to_i
+    @current_humidity = html[:main].css("div.observationsRecord p.humidity > span")[0].children[0].text[/\d+/].to_i  # In %
 
     timezone = html[:main].css("div.ack > p")[1].children[0].text[/GMT[+-]\d{4}/]
     @current_time = DateTime.now.new_offset(timezone).to_s
@@ -55,7 +55,6 @@ class WeatherResult
     if day.is_a?(String)
       weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
       day_temp = weekdays.select {|d| d.downcase.include?(day.downcase)}.first
-      date = nil
 
       raise ArgumentError, "'#{day}' is not a valid day" if day_temp.nil?
       day = day_temp

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Day do
-  let(:weather_halifax) { Weather.city("Halifax, Calderdale")}
+  let(:weather_halifax) { BBCWeather.city("Halifax, Calderdale")}
 
   describe '#new' do
     it 'creates a new Day object' do
