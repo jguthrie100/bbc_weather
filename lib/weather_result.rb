@@ -72,8 +72,8 @@ class WeatherResult
     # day var is now a Date object
 
     7.times do |i|
-      if !days_forward(i).nil? && days_forward(i).date.eql?(day)
-        return days_forward(i)
+      if !@days[i].nil? && @days[i].date.eql?(day)
+        return @days[i]
       end
     end
     raise ArgumentError, "'#{day.to_s}' is not in the forecast range (#{@days.first.date.to_s} - #{@days.last.date.to_s})"
