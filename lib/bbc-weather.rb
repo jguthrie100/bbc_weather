@@ -67,18 +67,35 @@ class BBCWeather
     return WeatherResult.new(html)
   end
 
-  def self.set_unit(unit)
-    if unit == "c" || unit == "celcius"
-      $temp_unit = "c"
-    elsif unit == "f" || unit == "fahrenheit"
-      $temp_unit = "f"
-    elsif unit == "kph" || unit == "km/h"
-      $speed_unit = "kph"
-    elsif unit == "mph"
-      $speed_unit = "mph"
-    else
-      raise ArgumentError, "'#{unit}' is not a recognised unit of speed/temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit), or 'kph' or 'mph' (kilometers per hour or miles per hour)"
+  def self.set_units(*units)
+    curr_units = self.units
+    count = {:temp => 0, :speed => 0}
+
+    units.each do |u|
+      if u == "c" || u == "celcius"
+        $temp_unit = "c"
+        count[:temp] += 1
+      elsif u == "f" || u == "fahrenheit"
+        $temp_unit = "f"
+        count[:temp] += 1
+      elsif u == "kph" || u == "km/h"
+        $speed_unit = "kph"
+        count[:speed] += 1
+      elsif u == "mph"
+        $speed_unit = "mph"
+        count[:speed] += 1
+      else
+        $temp_unit = curr_units[0]
+        $speed_unit = curr_units[1]
+        raise ArgumentError, "'#{u}' is not a recognised unit of speed/temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit), or 'kph' or 'mph' (kilometers per hour or miles per hour). Units have not been changed"
+      end
     end
+    if count[:temp] > 1 || count[:speed] > 1
+      $temp_unit = curr_units[0]
+      $speed_unit = curr_units[1]
+      raise ArgumentError, "Cannot pass in two units of the same type (i.e. #set_units('kph', 'mph')). Units have not been changed"
+    end
+
     return [$temp_unit, $speed_unit]
   end
 

@@ -65,65 +65,88 @@ describe BBCWeather do
     end
   end
 
-  describe '#set_unit' do
-    it 'sets the specified unit' do
-      expect(BBCWeather.set_unit("kph")).to eql(["c", "kph"])
-      expect(BBCWeather.set_unit("f")).to eql(["f", "kph"])
-      expect(BBCWeather.set_unit("celcius")).to eql(["c", "kph"])
-      expect(BBCWeather.set_unit("mph")).to eql(["c", "mph"])
-      expect(BBCWeather.set_unit("km/h")).to eql(["c", "kph"])
-      expect(BBCWeather.set_unit("fahrenheit")).to eql(["f", "kph"])
+  describe '#set_units' do
+    it 'sets the specified units' do
+      expect(BBCWeather.set_units("kph")).to eql(["c", "kph"])
+      expect(BBCWeather.units).to eql(["c", "kph"])
+
+      expect(BBCWeather.set_units("f")).to eql(["f", "kph"])
+      expect(BBCWeather.units).to eql(["f", "kph"])
+
+      expect(BBCWeather.set_units("celcius", "mph")).to eql(["c", "mph"])
+      expect(BBCWeather.units).to eql(["c", "mph"])
+
+      expect(BBCWeather.set_units("kph", "f")).to eql(["f", "kph"])
+      expect(BBCWeather.units).to eql(["f", "kph"])
+
+      expect(BBCWeather.set_units("celcius", "km/h")).to eql(["c", "kph"])
+      expect(BBCWeather.units).to eql(["c", "kph"])
+
+      expect(BBCWeather.set_units("fahrenheit")).to eql(["f", "kph"])
+      expect(BBCWeather.units).to eql(["f", "kph"])
     end
 
-    it 'should throw an ArgumentError if unit is not valid' do
-      expect {BBCWeather.set_unit("boogietime")}.to raise_error(ArgumentError, "'boogietime' is not a recognised unit of speed/temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit), or 'kph' or 'mph' (kilometers per hour or miles per hour)")
-      expect {BBCWeather.set_unit("g")}.to raise_error(ArgumentError, "'g' is not a recognised unit of speed/temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit), or 'kph' or 'mph' (kilometers per hour or miles per hour)")
-      expect {BBCWeather.set_unit("belcius")}.to raise_error(ArgumentError, "'belcius' is not a recognised unit of speed/temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit), or 'kph' or 'mph' (kilometers per hour or miles per hour)")
+    it 'should throw an ArgumentError if units are not valid (and leave existing unit values unaffected)' do
+      expect {BBCWeather.set_units("boogietime")}.to raise_error(ArgumentError, "'boogietime' is not a recognised unit of speed/temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit), or 'kph' or 'mph' (kilometers per hour or miles per hour). Units have not been changed")
+      expect {BBCWeather.set_units("g", "kph")}.to raise_error(ArgumentError, "'g' is not a recognised unit of speed/temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit), or 'kph' or 'mph' (kilometers per hour or miles per hour). Units have not been changed")
+
+      BBCWeather.set_units("kph", "f")
+      expect {BBCWeather.set_units("mph", "belcius")}.to raise_error(ArgumentError, "'belcius' is not a recognised unit of speed/temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit), or 'kph' or 'mph' (kilometers per hour or miles per hour). Units have not been changed")
+      expect(BBCWeather.units).to eql(["f", "kph"])
+    end
+
+    it 'should throw an ArgumentError if the same unit types are passed in (and leave existing unit values unaffected)' do
+      expect {BBCWeather.set_units("kph", "mph")}.to raise_error(ArgumentError, "Cannot pass in two units of the same type (i.e. #set_units('kph', 'mph')). Units have not been changed")
+      expect {BBCWeather.set_units("celcius", "fahrenheit")}.to raise_error(ArgumentError, "Cannot pass in two units of the same type (i.e. #set_units('kph', 'mph')). Units have not been changed")
+
+      BBCWeather.set_units("kph", "f")
+      expect {BBCWeather.set_units("kph", "mph", "c")}.to raise_error(ArgumentError, "Cannot pass in two units of the same type (i.e. #set_units('kph', 'mph')). Units have not been changed")
+      expect(BBCWeather.units).to eql(["f", "kph"])
     end
   end
 
   describe '#units' do
     it 'returns the currently set units' do
-      BBCWeather.set_unit("kph")
-      BBCWeather.set_unit("c")
+      BBCWeather.set_units("kph")
+      BBCWeather.set_units("c")
       expect(BBCWeather.units).to eql(["c", "kph"])
 
-      BBCWeather.set_unit("mph")
+      BBCWeather.set_units("mph")
       expect(BBCWeather.units).to eql(["c", "mph"])
 
-      BBCWeather.set_unit("fahrenheit")
+      BBCWeather.set_units("fahrenheit")
       expect(BBCWeather.units).to eql(["f", "mph"])
 
-      BBCWeather.set_unit("km/h")
+      BBCWeather.set_units("km/h")
       expect(BBCWeather.units).to eql(["f", "kph"])
     end
   end
 
   context 'when changing which units are used' do
     let(:weather) { BBCWeather.city("Halifax, Calderdale") }
-    it 'should return measurements according to the specified units' do
-      BBCWeather.set_unit("celcius")
-      BBCWeather.set_unit("mph")
+    it 'should return weather measurements according to the specified units' do
+      BBCWeather.set_units("celcius")
+      BBCWeather.set_units("mph")
 
       expect(weather.today.at("19:45").temperature).to eql(15)
-      BBCWeather.set_unit("fahrenheit")
+      BBCWeather.set_units("fahrenheit")
       expect(weather.today.at("19:45").temperature).to eql(59)
 
       expect(weather.today.at("19:45").wind_speed).to eql(18)
-      BBCWeather.set_unit("km/h")
+      BBCWeather.set_units("km/h")
       expect(weather.today.at("19:45").wind_speed).to eql(29)
 
       expect(weather.tomorrow.low).to eql(53)
-      BBCWeather.set_unit("celcius")
+      BBCWeather.set_units("celcius")
       expect(weather.tomorrow.low).to eql(12)
 
       expect(weather.current_temp).to eql(15)
-      BBCWeather.set_unit("fahrenheit")
+      BBCWeather.set_units("fahrenheit")
       expect(weather.current_temp).to eql(59)
 
       # Reset to default
-      BBCWeather.set_unit("celcius")
-      BBCWeather.set_unit("mph")
+      BBCWeather.set_units("celcius")
+      BBCWeather.set_units("mph")
     end
   end
 end
