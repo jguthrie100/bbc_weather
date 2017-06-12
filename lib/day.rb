@@ -25,7 +25,7 @@ class Day
       ts.time = DateTime.parse("#{@date}T#{time}")
       ts.time += 1 if nextday_timeslot_index
 
-      # Sort out prev and next Timelots
+      # Sort out prev and next Timeslots
       unless @timeslots[-1].nil?
         ts.prev = @timeslots[-1]
         @timeslots[-1].next = ts

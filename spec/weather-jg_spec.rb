@@ -48,8 +48,8 @@ describe Weather do
     end
   end
 
-  context 'when #set_unit has not yet been called' do
-    describe '#units' do
+  describe '#units' do
+    context 'when #set_units has not been called yet' do
       it 'returns the default units' do
         expect(Weather.units).to eql(["c", "mph"])
       end
@@ -87,6 +87,34 @@ describe Weather do
 
       Weather.set_unit("km/h")
       expect(Weather.units).to eql(["f", "kph"])
+    end
+  end
+
+  context 'when changing which units are used' do
+    let(:weather) { Weather.city("Halifax, Calderdale") }
+    it 'should return measurements according to the specified units' do
+      Weather.set_unit("celcius")
+      Weather.set_unit("mph")
+
+      expect(weather.today.at("19:45").temperature).to eql(15)
+      Weather.set_unit("fahrenheit")
+      expect(weather.today.at("19:45").temperature).to eql(59)
+
+      expect(weather.today.at("19:45").wind_speed).to eql(18)
+      Weather.set_unit("km/h")
+      expect(weather.today.at("19:45").wind_speed).to eql(29)
+
+      expect(weather.tomorrow.low).to eql(53)
+      Weather.set_unit("celcius")
+      expect(weather.tomorrow.low).to eql(12)
+
+      expect(weather.current_temp).to eql(18)
+      Weather.set_unit("fahrenheit")
+      expect(weather.current_temp).to eql(64)
+
+      # Reset to default
+      Weather.set_unit("celcius")
+      Weather.set_unit("mph")
     end
   end
 end

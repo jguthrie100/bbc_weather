@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'date'
-require 'byebug'
 
 describe WeatherResult do
   let(:weather) { Weather.city("Halifax, Calderdale")}

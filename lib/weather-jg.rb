@@ -4,6 +4,9 @@ require 'json'
 require 'weather_result'
 
 class Weather
+  $temp_unit = "c"
+  $speed_unit = "mph"
+
   def self.city(city_id)
     result = {}
 
@@ -75,10 +78,10 @@ class Weather
     else
       raise ArgumentError, "'#{unit}' is not a recognised unit of speed/temperature. Unit must be either 'c' or 'f' (celcius or fahrenheit), or 'kph' or 'mph' (kilometers per hour or miles per hour)"
     end
-    return [$temp_unit || "c", $speed_unit || "mph"]
+    return [$temp_unit, $speed_unit]
   end
 
   def self.units
-    return [$temp_unit || "c", $speed_unit || "mph"]
+    return [$temp_unit, $speed_unit]
   end
 end

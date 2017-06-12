@@ -79,4 +79,12 @@ class WeatherResult
     end
     raise ArgumentError, "'#{day.to_s}' is not in the forecast range (#{@days.first.date.to_s} - #{@days.last.date.to_s})"
   end
+
+  def current_temp
+    if $temp_unit.eql?("c")
+      return @current_temp
+    else
+      return ((@current_temp * 9 / 5) + 32).round
+    end
+  end
 end
