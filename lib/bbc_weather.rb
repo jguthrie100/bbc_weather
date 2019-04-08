@@ -12,7 +12,7 @@ class BBCWeather
 
     if city_id.is_a?(Integer) || city_id =~ /^[0-9]+$/
       begin
-        result = get_weather_from_bbc_url("http://www.bbc.co.uk/weather/en/#{city_id}")
+        result = get_weather_from_bbc_url("http://www.bbc.co.uk/weather/#{city_id}")
       rescue ArgumentError => e
         if e.to_s[/404/]
           raise ArgumentError, "City ID: #{city_id} not found"
